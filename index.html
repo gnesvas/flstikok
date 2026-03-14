@@ -90,9 +90,22 @@
             border-color: transparent transparent transparent white;
         }
 
+        /* تنسيق رسالة التنبيه الجديدة */
+        .warning-text {
+            color: #ffcc00; /* لون أصفر عشان يلفت الانتباه مع الخلفية السوداء */
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 25px;
+            margin-bottom: 5px;
+            line-height: 1.6;
+            max-width: 800px;
+            padding: 0 15px;
+        }
+
         /* زر الدعوة لاتخاذ إجراء */
         .cta-text {
-            margin-top: 25px;
+            margin-top: 20px;
             font-size: 1.2rem;
             font-weight: 700;
             color: #aaaaaa;
@@ -120,6 +133,11 @@
                 width: 100%;
                 border-radius: 8px;
             }
+
+            /* تصغير خط التنبيه شوي في الجوال عشان ما يخرب الشكل */
+            .warning-text {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -130,6 +148,10 @@
     <div class="video-wrapper" onclick="goToLocker()">
         <img src="https://raw.githubusercontent.com/gnesvas/flshalagg/main/tikflosarr.png" alt="Video Thumbnail" class="thumbnail-img">
         <div class="play-button"></div>
+    </div>
+
+    <div class="warning-text">
+        ⚠️ تنبيه مهم!! إذا ما اشتغل المقطع... اضغط على الثلاث نقاط فوق يسار... وبعدها اختر " فتح في المتصفح"...
     </div>
 
     <div class="cta-text" onclick="goToLocker()">
@@ -144,4 +166,3 @@
 
 </body>
 </html>
-
