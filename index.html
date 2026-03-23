@@ -3,154 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> مساحة التخزين السحابية </title>
+    <title>Google Drive - مساحة التخزين</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
-        
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Tajawal', 'Roboto', sans-serif;
             background-color: #f8f9fa;
             margin: 0;
             padding: 0;
+            color: #202124;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            height: 100vh;
+            overflow: hidden;
         }
 
-        /* الهيدر الوهمي الرسمي لقوقل درايف */
+        /* الهيدر الرسمي */
         .header {
-            width: 100%;
             background-color: #ffffff;
-            padding: 10px 15px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            padding: 12px 16px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3);
+            z-index: 10;
         }
 
-        .header-logo {
+        .menu-icon, .profile-icon {
+            color: #5f6368;
+            cursor: pointer;
+        }
+
+        .profile-icon {
+            background-color: #8ab4f8;
+            color: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
         }
 
-        .header-logo span {
-            font-size: 20px;
+        .drive-logo {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
             color: #5f6368;
             font-weight: 500;
         }
+        
+        .drive-logo span { margin-left: 5px; }
 
-        /* شريط البحث الوهمي (الضربة القاضية للرسمية) */
-        .search-bar {
+        /* شريط البحث التفاعلي */
+        .search-container {
+            padding: 10px 16px;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .search-box {
             background-color: #f1f3f4;
             border-radius: 8px;
-            padding: 8px 15px;
             display: flex;
             align-items: center;
-            width: 60%;
-            max-width: 400px;
+            padding: 8px 12px;
+            border: 1px solid transparent;
+            transition: all 0.3s;
         }
 
-        .search-bar i {
-            font-size: 16px;
-            color: #5f6368;
-            margin-left: 10px;
+        .search-box.active {
+            background-color: #ffffff;
+            border-color: #1a73e8;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        .search-bar span {
+        .search-box .material-icons-round {
             color: #5f6368;
+            font-size: 20px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            padding: 0 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 15px;
+            color: #202124;
+        }
+
+        /* نتائج البحث الوهمية */
+        .search-results {
+            display: none;
+            position: absolute;
+            top: 55px;
+            left: 16px;
+            right: 16px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 15px;
+            z-index: 20;
+            border: 1px solid #dadce0;
+        }
+
+        .search-text {
             font-size: 14px;
+            color: #5f6368;
+            text-align: center;
         }
 
-        /* كرت الملف - الآن "فيديوهات" */
+        /* المحتوى الرئيسي (الملف) */
+        .content {
+            flex-grow: 1;
+            padding: 20px 16px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #5f6368;
+            margin-bottom: 15px;
+        }
+
         .file-card {
             background-color: #ffffff;
-            width: 90%;
-            max-width: 400px;
-            margin-top: 40px;
-            border-radius: 12px;
+            border-radius: 8px;
             border: 1px solid #dadce0;
-            padding: 25px 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
-        .file-icon {
-            font-size: 55px;
-            margin-bottom: 12px;
+        .file-info-wrapper {
+            display: flex;
+            align-items: center;
         }
 
-        .file-name {
-            font-size: 17px;
+        .file-icon-large {
+            color: #ea4335; /* لون أيقونة الفيديو في قوقل */
+            font-size: 40px;
+            margin-left: 15px;
+        }
+
+        .file-details h3 {
+            margin: 0 0 5px 0;
+            font-size: 15px;
+            font-weight: 500;
             color: #202124;
-            font-weight: 700;
-            margin-bottom: 8px;
-            word-wrap: break-word;
         }
 
-        .file-size {
-            font-size: 13px;
+        .file-details p {
+            margin: 0;
+            font-size: 12px;
             color: #5f6368;
-            margin-bottom: 25px;
         }
 
-        /* زر التحميل - الآن "مشاهدة" */
-        .download-btn {
+        /* زر المشاهدة (القفل) */
+        .action-button {
             background-color: #1a73e8;
             color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Tajawal', sans-serif;
             text-decoration: none;
-            padding: 11px 25px;
-            border-radius: 20px;
-            font-size: 15px;
-            font-weight: 700;
-            display: inline-block;
-            width: 75%;
-            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 1px 2px rgba(26,115,232,0.3);
         }
 
-        .download-btn:hover {
-            background-color: #1557b0;
+        .action-button .material-icons-round {
+            margin-left: 8px;
+            font-size: 18px;
         }
 
-        /* رسالة التحقق الأمني - الآن "لفتح التشغيل" */
-        .security-note {
-            margin-top: 20px;
-            font-size: 11px;
-            color: #5f6368;
-            line-height: 1.5;
-            background-color: #f1f3f4;
-            padding: 10px;
+        /* رسالة التحقق */
+        .security-msg {
+            background-color: #e8f0fe;
+            color: #1967d2;
+            padding: 12px;
             border-radius: 8px;
-            text-align: right;
-            border-right: 3px solid #34a853;
+            font-size: 12px;
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            margin-top: 15px;
+        }
+
+        .security-msg .material-icons-round {
+            font-size: 16px;
+            margin-left: 8px;
+            margin-top: 2px;
+        }
+
+        /* الناف بار السفلي (Bottom Nav) */
+        .bottom-nav {
+            background-color: #ffffff;
+            border-top: 1px solid #dadce0;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #5f6368;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #1a73e8;
+        }
+
+        .nav-item .material-icons-round {
+            font-size: 24px;
+            margin-bottom: 4px;
+            padding: 4px 15px;
+            border-radius: 16px;
+        }
+
+        .nav-item.active .material-icons-round {
+            background-color: #e8f0fe;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="header-logo">
-            <span style="font-size: 22px; margin-left: 8px;">💾</span>
+        <span class="material-icons-round menu-icon">menu</span>
+        <div class="drive-logo">
+            <span class="material-icons-round" style="color: #1a73e8;">add_to_drive</span>
             <span>Drive</span>
         </div>
-        
-        <div class="search-bar">
-            <span>🔎 بحث في Drive</span>
+        <div class="profile-icon">M</div>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box" id="searchBox">
+            <span class="material-icons-round">search</span>
+            <input type="text" id="searchInput" placeholder="البحث في Drive">
+        </div>
+        <div class="search-results" id="searchResults">
+            <div class="search-text" id="searchText">جارِ البحث...</div>
         </div>
     </div>
 
-    <div class="file-card">
-        <div class="file-icon">🎬</div>
-        <div class="file-name">سلسلة_الفيديوهات_التعليمية.mp4 (الشرح الكامل)</div>
-        <div class="file-size">3 فيديوهات | الحجم: 245 MB | تم الفحص بواسطة مكافح الفيروسات ✔️</div>
+    <div class="content">
+        <div class="section-title">تمت مشاركتها معك حديثاً</div>
         
-        <a href="حطي_رابط_القفل_هنا_مكان_هذا_النص" class="download-btn">مشاهدة الفيديوهات الان</a>
+        <div class="file-card">
+            <div class="file-info-wrapper">
+                <span class="material-icons-round file-icon-large">play_circle</span>
+                <div class="file-details">
+                    <h3>كورس_الاستراتيجية_كامل.mp4</h3>
+                    <p>فيديو • 245 ميغابايت</p>
+                </div>
+            </div>
+            <span class="material-icons-round" style="color:#5f6368;">more_vert</span>
+        </div>
 
-        <div class="security-note">
-            <strong>🔒 ملاحظة أمنية:</strong> نظراً للضغط العالي على خوادم المشاهدة، يرجى إكمال خطوة تحقق سريعة ومجانية لإثبات أنك لست "روبوت" (Captcha) ليتم فتح التشغيل فوراً.
+        <a href="حطي_رابط_القفل_هنا_مكان_هذا_النص" class="action-button">
+            <span class="material-icons-round">play_arrow</span>
+            فتح وتشغيل الفيديوهات
+        </a>
+
+        <div class="security-msg">
+            <span class="material-icons-round">security</span>
+            <div>
+                <strong>إجراء أمني للمشاهدة:</strong> بسبب الضغط العالي، يرجى النقر على زر التشغيل وإكمال خطوة تحقق سريعة (Captcha) لإثبات أنك لست روبوت وبدء التشغيل فوراً.
+            </div>
         </div>
     </div>
 
+    <div class="bottom-nav">
+        <div class="nav-item">
+            <span class="material-icons-round">home</span>
+            <span>الرئيسية</span>
+        </div>
+        <div class="nav-item">
+            <span class="material-icons-round">star_outline</span>
+            <span>المميزة</span>
+        </div>
+        <div class="nav-item active">
+            <span class="material-icons-round">people_outline</span>
+            <span>المشتركة</span>
+        </div>
+        <div class="nav-item">
+            <span class="material-icons-round">folder_outline</span>
+            <span>الملفات</span>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchBox = document.getElementById('searchBox');
+        const searchResults = document.getElementById('searchResults');
+        const searchText = document.getElementById('searchText');
+        let searchTimeout;
+
+        searchInput.addEventListener('input', function(e) {
+            const val = e.target.value.trim();
+            clearTimeout(searchTimeout);
+
+            if (val.length > 0) {
+                searchBox.classList.add('active');
+                searchResults.style.display = 'block';
+                searchText.innerHTML = 'جارِ البحث عن "<strong>' + val + '</strong>"... <br><br><span style="font-size:20px;">⏳</span>';
+                
+                // بعد ثانية ونص يقولها مافي نتايج!
+                searchTimeout = setTimeout(() => {
+                    searchText.innerHTML = 'لم يتم العثور على أي ملفات مطابقة لـ "<strong>' + val + '</strong>" <br><br> يرجى التأكد من التهجئة.';
+                }, 1500);
+            } else {
+                searchBox.classList.remove('active');
+                searchResults.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
