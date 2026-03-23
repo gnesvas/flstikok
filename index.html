@@ -8,27 +8,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
     
     <style>
-        /* إعدادات الأنيميشن حق الآيفون */
         :root {
             --ios-spring: cubic-bezier(0.25, 0.8, 0.25, 1);
-            --ios-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.27);
         }
 
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #f2f2f7; /* لون خلفية أبل الرسمي */
+            background-color: #f2f2f7;
             margin: 0;
             padding: 0;
             color: #1c1c1e;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            -webkit-tap-highlight-color: transparent; /* إخفاء المربع الأزرق عند الضغط */
+            min-height: 100dvh; /* حل مشكلة مقاسات الجوال */
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* الهيدر */
+        /* الهيدر الثابت فوق */
         .header {
+            position: sticky;
+            top: 0;
             background-color: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -36,7 +33,7 @@
             display: flex;
             align-items: center;
             border-bottom: 1px solid rgba(0,0,0,0.05);
-            z-index: 10;
+            z-index: 100;
         }
 
         .menu-icon {
@@ -46,9 +43,7 @@
             transition: transform 0.2s var(--ios-spring);
         }
 
-        .menu-icon:active {
-            transform: scale(0.85);
-        }
+        .menu-icon:active { transform: scale(0.85); }
 
         .brand-logo {
             display: flex;
@@ -65,7 +60,7 @@
             font-size: 30px;
         }
 
-        /* القائمة الجانبية شغالة */
+        /* القائمة الجانبية */
         .side-menu {
             position: fixed;
             top: 0;
@@ -79,9 +74,7 @@
             padding-top: 20px;
         }
 
-        .side-menu.active {
-            right: 0;
-        }
+        .side-menu.active { right: 0; }
 
         .menu-header {
             padding: 0 20px 20px 20px;
@@ -97,20 +90,17 @@
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.2s var(--ios-spring);
+            transition: background-color 0.2s;
         }
 
-        .menu-item:active {
-            background-color: #f2f2f7;
-            transform: scale(0.96);
-        }
+        .menu-item:active { background-color: #f2f2f7; }
 
         .menu-item .material-symbols-rounded {
             margin-left: 15px;
             color: #8e8e93;
         }
 
-        /* تغبيش الخلفية (أبل ستايل) */
+        /* تغبيش الخلفية */
         .overlay {
             position: fixed;
             top: 0;
@@ -133,10 +123,7 @@
 
         /* حاوية الصفحات */
         .pages-container {
-            flex-grow: 1;
-            position: relative;
-            overflow-y: auto;
-            padding-bottom: 90px;
+            padding-bottom: 90px; /* مساحة للناف بار السفلي */
         }
 
         .page {
@@ -145,19 +132,17 @@
             animation: slideUp 0.4s var(--ios-spring);
         }
 
-        .page.active {
-            display: block;
-        }
+        .page.active { display: block; }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* الصفحات الفاضية المقنعة */
+        /* الصفحات الفاضية */
         .empty-state {
             text-align: center;
-            margin-top: 100px;
+            margin-top: 80px;
             color: #8e8e93;
         }
 
@@ -179,7 +164,7 @@
             line-height: 1.5;
         }
 
-        /* كرت الفيديو التفاعلي (الزر الكبير) */
+        /* الأزرار التفاعلية (الكورس والقفل) */
         .section-title {
             font-size: 15px;
             font-weight: 700;
@@ -190,25 +175,20 @@
 
         .clickable-card {
             display: block;
-            text-decoration: none;
             background-color: #ffffff;
             border-radius: 16px;
             padding: 16px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            transition: transform 0.2s var(--ios-bounce), box-shadow 0.2s;
             margin-bottom: 20px;
             border: 1px solid rgba(0,0,0,0.02);
-        }
-
-        .clickable-card:active {
-            transform: scale(0.94);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-            background-color: #fafafa;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.27);
         }
 
         .file-info-wrapper {
             display: flex;
             align-items: center;
+            pointer-events: none; /* عشان الضغطة تصير عالكرت كله */
         }
 
         .file-icon-large {
@@ -238,7 +218,6 @@
             color: #34c759;
         }
 
-        /* زر الإجراء الأساسي (قفل CPA) */
         .action-button {
             background-color: #007aff;
             color: white;
@@ -248,23 +227,19 @@
             font-size: 16px;
             font-weight: 700;
             font-family: 'Tajawal', sans-serif;
-            text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
             box-sizing: border-box;
             box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
-            transition: transform 0.2s var(--ios-bounce), background-color 0.2s;
-        }
-
-        .action-button:active {
-            transform: scale(0.94);
-            background-color: #005bb5;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.27), background-color 0.2s;
         }
 
         .action-button .material-symbols-rounded {
             margin-left: 8px;
+            pointer-events: none;
         }
 
         /* رسالة الأمان */
@@ -285,7 +260,7 @@
             margin-left: 10px;
         }
 
-        /* الناف بار السفلي (أيقونات أبل) */
+        /* الناف بار السفلي */
         .bottom-nav {
             background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(15px);
@@ -310,21 +285,13 @@
             font-weight: 500;
             cursor: pointer;
             width: 25%;
-            transition: transform 0.2s var(--ios-bounce), color 0.2s;
+            transition: transform 0.2s var(--ios-spring), color 0.2s;
         }
 
-        .nav-item:active {
-            transform: scale(0.85);
-        }
+        .nav-item:active { transform: scale(0.85); }
+        .nav-item.active { color: #007aff; }
+        .nav-item .material-symbols-rounded { font-size: 26px; margin-bottom: 4px; }
 
-        .nav-item.active {
-            color: #007aff;
-        }
-
-        .nav-item .material-symbols-rounded {
-            font-size: 26px;
-            margin-bottom: 4px;
-        }
     </style>
 </head>
 <body>
@@ -357,7 +324,7 @@
         <div class="page active" id="page-home">
             <div class="section-title">تمت مشاركتها معك مؤخراً</div>
             
-            <a href="https://locked-content.com/?f892a37" class="clickable-card">
+            <div class="clickable-card" onclick="goToLocker(this)">
                 <div class="file-info-wrapper">
                     <span class="material-symbols-rounded file-icon-large">play_circle</span>
                     <div class="file-details">
@@ -365,12 +332,12 @@
                         <p>فيديو • 350 MB • <span class="material-symbols-rounded">verified_user</span> آمن</p>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <a href="https://locked-content.com/?f892a37" class="action-button">
+            <div class="action-button" onclick="goToLocker(this)">
                 <span class="material-symbols-rounded">play_arrow</span>
                 فتح وتشغيل الفيديوهات الآن
-            </a>
+            </div>
 
             <div class="security-msg">
                 <span class="material-symbols-rounded">shield_lock</span>
@@ -469,28 +436,31 @@
         document.getElementById('menuBtn').addEventListener('click', toggleMenu);
         overlay.addEventListener('click', toggleMenu);
 
-        // دالة التنقل بين الصفحات
         function switchTab(tabId, element) {
-            // إخفاء كل الصفحات
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-
-            // إزالة التفعيل من القائمة السفلية
-            document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-
-            // إظهار الصفحة المطلوبة
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(item => item.classList.remove('active'));
             document.getElementById('page-' + tabId).classList.add('active');
             
-            // تفعيل الزر إذا كان من القائمة السفلية
             if (element && element.classList.contains('nav-item')) {
                 element.classList.add('active');
             } else {
-                // إذا جاي من القائمة الجانبية، نرجع التفعيل لزر الرئيسية كشكل افتراضي
                 document.querySelector('.bottom-nav .nav-item').classList.add('active');
             }
+        }
+
+        // هذي دالة السحر اللي تسوي الأنيميشن بعدين تحول للرابط
+        function goToLocker(element) {
+            // 1. نصغر الزر عشان يبين إنه انضغط
+            element.style.transform = 'scale(0.92)';
+            
+            // 2. ننتظر ثلث ثانية (عشان العين تشوف الحركة) بعدين نفتح الرابط
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+                
+                // حطي رابط الـ CPA حقك هنا بين علامتين التنصيص
+                window.location.href = "https://unlock-content.net/?f892a37"; 
+                
+            }, 300);
         }
     </script>
 </body>
