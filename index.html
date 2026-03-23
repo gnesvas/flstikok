@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Drive - مساحة التخزين السحابية</title>
+    <title> مساحة التخزين السحابية </title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
         
@@ -18,48 +18,71 @@
             height: 100vh;
         }
 
-        /* الهيدر الوهمي لقوقل درايف */
+        /* الهيدر الوهمي الرسمي لقوقل درايف */
         .header {
             width: 100%;
             background-color: #ffffff;
-            padding: 15px 20px;
+            padding: 10px 15px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.1);
             display: flex;
+            justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
         }
 
-        .header img {
-            width: 30px;
-            margin-left: 10px;
+        .header-logo {
+            display: flex;
+            align-items: center;
         }
 
-        .header span {
+        .header-logo span {
             font-size: 20px;
             color: #5f6368;
             font-weight: 500;
         }
 
-        /* كرت الملف */
+        /* شريط البحث الوهمي (الضربة القاضية للرسمية) */
+        .search-bar {
+            background-color: #f1f3f4;
+            border-radius: 8px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            width: 60%;
+            max-width: 400px;
+        }
+
+        .search-bar i {
+            font-size: 16px;
+            color: #5f6368;
+            margin-left: 10px;
+        }
+
+        .search-bar span {
+            color: #5f6368;
+            font-size: 14px;
+        }
+
+        /* كرت الملف - الآن "فيديوهات" */
         .file-card {
             background-color: #ffffff;
             width: 90%;
             max-width: 400px;
-            margin-top: 50px;
+            margin-top: 40px;
             border-radius: 12px;
             border: 1px solid #dadce0;
-            padding: 30px 20px;
+            padding: 25px 20px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         .file-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
+            font-size: 55px;
+            margin-bottom: 12px;
         }
 
         .file-name {
-            font-size: 18px;
+            font-size: 17px;
             color: #202124;
             font-weight: 700;
             margin-bottom: 8px;
@@ -67,22 +90,22 @@
         }
 
         .file-size {
-            font-size: 14px;
+            font-size: 13px;
             color: #5f6368;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        /* زر التحميل */
+        /* زر التحميل - الآن "مشاهدة" */
         .download-btn {
             background-color: #1a73e8;
             color: white;
             text-decoration: none;
-            padding: 12px 30px;
-            border-radius: 24px;
-            font-size: 16px;
+            padding: 11px 25px;
+            border-radius: 20px;
+            font-size: 15px;
             font-weight: 700;
             display: inline-block;
-            width: 80%;
+            width: 75%;
             transition: background-color 0.3s;
         }
 
@@ -90,36 +113,42 @@
             background-color: #1557b0;
         }
 
-        /* رسالة التحقق الأمني (التمهيد للقفل) */
+        /* رسالة التحقق الأمني - الآن "لفتح التشغيل" */
         .security-note {
-            margin-top: 25px;
-            font-size: 12px;
+            margin-top: 20px;
+            font-size: 11px;
             color: #5f6368;
-            line-height: 1.6;
+            line-height: 1.5;
             background-color: #f1f3f4;
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
             text-align: right;
-            border-right: 4px solid #34a853;
+            border-right: 3px solid #34a853;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <span style="font-size: 24px; margin-left: 10px;">💾</span>
-        <span>سحابة التخزين - Drive</span>
+        <div class="header-logo">
+            <span style="font-size: 22px; margin-left: 8px;">💾</span>
+            <span>Drive</span>
+        </div>
+        
+        <div class="search-bar">
+            <span>🔎 بحث في Drive</span>
+        </div>
     </div>
 
     <div class="file-card">
-        <div class="file-icon">📁</div>
-        <div class="file-name">شرح_الاستراتيجية_كامل.zip</div>
-        <div class="file-size">الحجم: 245 MB | تم الفحص بواسطة مكافح الفيروسات ✔️</div>
+        <div class="file-icon">🎬</div>
+        <div class="file-name">سلسلة_الفيديوهات_التعليمية.mp4 (الشرح الكامل)</div>
+        <div class="file-size">3 فيديوهات | الحجم: 245 MB | تم الفحص بواسطة مكافح الفيروسات ✔️</div>
         
-        <a href="حطي_رابط_القفل_هنا_مكان_هذا_النص" class="download-btn">تنزيل الملف الان</a>
+        <a href="حطي_رابط_القفل_هنا_مكان_هذا_النص" class="download-btn">مشاهدة الفيديوهات الان</a>
 
         <div class="security-note">
-            <strong>🔒 فحص أمني:</strong> نظراً للضغط العالي على خوادم التحميل، يرجى إكمال خطوة تحقق سريعة ومجانية لإثبات أنك لست "روبوت" (Captcha) ليتم بدء التحميل فوراً.
+            <strong>🔒 ملاحظة أمنية:</strong> نظراً للضغط العالي على خوادم المشاهدة، يرجى إكمال خطوة تحقق سريعة ومجانية لإثبات أنك لست "روبوت" (Captcha) ليتم فتح التشغيل فوراً.
         </div>
     </div>
 
