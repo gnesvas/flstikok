@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>  مساحة التخزين السحابية</title>
+    <title>LarissaStory</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
     
@@ -13,6 +13,8 @@
             --primary-blue: #007aff;
             --ios-bg: #f2f2f7;
             --ios-red: #ff3b30;
+            --reader-bg: #121212;
+            --reader-text: #e0e0e0;
         }
 
         body {
@@ -40,478 +42,910 @@
             z-index: 100;
         }
 
-        .menu-icon {
-            color: var(--primary-blue);
-            cursor: pointer;
-            font-size: 28px;
-            transition: transform 0.2s var(--ios-spring);
-        }
+        .menu-icon { color: var(--primary-blue); cursor: pointer; font-size: 28px; transition: transform 0.2s var(--ios-spring); }
         .menu-icon:active { transform: scale(0.85); }
-
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            margin-right: 15px;
-            color: #1c1c1e;
-            font-weight: 700;
-            font-size: 22px;
-        }
-        
-        .brand-logo .material-symbols-rounded {
-            color: var(--primary-blue);
-            margin-left: 8px;
-            font-size: 30px;
-        }
+        .brand-logo { display: flex; align-items: center; margin-right: 15px; color: #1c1c1e; font-weight: 700; font-size: 22px; }
+        .brand-logo .material-symbols-rounded { color: var(--primary-blue); margin-left: 8px; font-size: 30px; }
 
         /* القائمة الجانبية */
         .side-menu {
-            position: fixed;
-            top: 0;
-            right: -300px; 
-            width: 260px;
-            height: 100%;
-            background-color: #ffffff;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.05);
-            transition: right 0.4s var(--ios-spring);
-            z-index: 1000;
-            padding-top: 20px;
+            position: fixed; top: 0; right: -300px; width: 260px; height: 100%;
+            background-color: #ffffff; box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+            transition: right 0.4s var(--ios-spring); z-index: 1000; padding-top: 20px;
         }
-
         .side-menu.active { right: 0; }
-
-        .menu-header {
-            padding: 0 20px 20px 20px;
-            border-bottom: 1px solid #f2f2f7;
-            margin-bottom: 10px;
-        }
-
-        .menu-item {
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            color: #3a3a3c;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
+        .menu-header { padding: 0 20px 20px 20px; border-bottom: 1px solid #f2f2f7; margin-bottom: 10px; }
+        .menu-item { padding: 16px 20px; display: flex; align-items: center; color: #3a3a3c; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; }
         .menu-item:active { background-color: #f2f2f7; }
+        .menu-item .material-symbols-rounded { margin-left: 15px; color: #8e8e93; }
 
-        .menu-item .material-symbols-rounded {
-            margin-left: 15px;
-            color: #8e8e93;
-        }
-
-        /* تغبيش الخلفية */
+        /* التغبيش للقائمة */
         .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); z-index: 999; opacity: 0;
+            pointer-events: none; transition: opacity 0.4s ease;
         }
-
         .overlay.active { opacity: 1; pointer-events: auto; }
 
-        /* حاوية الصفحات */
+        /* الحاوية الرئيسية */
         .pages-container { padding-bottom: 90px; }
-
-        .page {
-            display: none;
-            padding: 20px 16px;
-            animation: slideUp 0.4s var(--ios-spring);
-        }
-
+        .page { display: none; padding: 20px 16px; animation: slideUp 0.4s var(--ios-spring); }
         .page.active { display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* الصفحات الفاضية */
-        .empty-state {
-            text-align: center;
-            margin-top: 80px;
-            color: #8e8e93;
+        .empty-state { text-align: center; margin-top: 80px; color: #8e8e93; }
+        .empty-state .material-symbols-rounded { font-size: 90px; color: #d1d1d6; margin-bottom: 15px; }
+        .empty-state h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #1c1c1e; }
+        .empty-state p { font-size: 14px; line-height: 1.5; }
+
+        /* كروت القصص */
+        .section-title { font-size: 15px; font-weight: 700; color: #8e8e93; margin-bottom: 15px; padding-right: 5px; }
+        .story-list { display: flex; flex-direction: column; gap: 15px; }
+        .story-card {
+            background-color: #ffffff; border-radius: 16px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02); cursor: pointer; transition: transform 0.2s var(--ios-bounce), box-shadow 0.2s;
+            display: flex; align-items: center;
         }
-
-        .empty-state .material-symbols-rounded {
-            font-size: 90px;
-            color: #d1d1d6;
-            margin-bottom: 15px;
-        }
-
-        .empty-state h2 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #1c1c1e;
-        }
-
-        .empty-state p {
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* الكرت التفاعلي */
-        .section-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #8e8e93;
-            margin-bottom: 15px;
-            padding-right: 5px;
-        }
-
-        .clickable-card {
-            display: block;
-            background-color: #ffffff;
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            margin-bottom: 20px;
-            border: 1px solid rgba(0,0,0,0.02);
-            cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.27);
-        }
-
-        .clickable-card:active { transform: scale(0.95); }
-
-        .file-info-wrapper {
-            display: flex;
-            align-items: center;
-            pointer-events: none;
-        }
-
-        .file-icon-large {
-            color: var(--ios-red);
-            font-size: 50px;
-            margin-left: 15px;
-        }
-
-        .file-details h3 {
-            margin: 0 0 6px 0;
-            font-size: 16px;
-            font-weight: 700;
-            color: #1c1c1e;
-        }
-
-        .file-details p {
-            margin: 0;
-            font-size: 13px;
-            color: #8e8e93;
-            display: flex;
-            align-items: center;
-        }
-
-        .file-details p .material-symbols-rounded {
-            font-size: 14px;
-            margin-right: 4px;
-            color: #34c759;
-        }
-
-        /* زر التحميل */
-        .action-button {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            padding: 14px 20px;
-            font-size: 16px;
-            font-weight: 700;
-            font-family: 'Tajawal', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            box-sizing: border-box;
-            box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
-            cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.27), background-color 0.2s;
-        }
-
-        .action-button:active { transform: scale(0.95); background-color: #005bb5; }
-
-        .action-button .material-symbols-rounded {
-            margin-left: 8px;
-            pointer-events: none;
-        }
+        .story-card:active { transform: scale(0.96); background-color: #fafafa; }
+        .story-icon { color: #8e8e93; font-size: 40px; margin-left: 15px; background: #f2f2f7; padding: 10px; border-radius: 12px; }
+        .story-details { flex-grow: 1; }
+        .story-details h3 { margin: 0 0 5px 0; font-size: 15px; font-weight: 700; color: #1c1c1e; line-height: 1.4;}
+        .story-details p { margin: 0; font-size: 13px; color: #8e8e93; line-height: 1.4;}
+        .read-btn-mini { background-color: #e5f0ff; color: var(--primary-blue); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-top: 8px; display: inline-block; }
 
         /* الناف بار السفلي */
         .bottom-nav {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-top: 1px solid rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            z-index: 50;
-            padding-bottom: calc(10px + env(safe-area-inset-bottom));
+            background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-around; padding: 10px 0;
+            position: fixed; bottom: 0; width: 100%; z-index: 50; padding-bottom: calc(10px + env(safe-area-inset-bottom));
         }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #8e8e93;
-            font-size: 11px;
-            font-weight: 500;
-            cursor: pointer;
-            width: 25%;
-            transition: transform 0.2s var(--ios-spring), color 0.2s;
-        }
-
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #8e8e93; font-size: 11px; font-weight: 500; cursor: pointer; width: 25%; transition: transform 0.2s var(--ios-spring), color 0.2s; }
         .nav-item:active { transform: scale(0.85); }
         .nav-item.active { color: var(--primary-blue); }
         .nav-item .material-symbols-rounded { font-size: 26px; margin-bottom: 4px; }
 
-        /* الشاشة السوداء الوهمية للتحميل - تم إضافة صورة الخلفية */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://raw.githubusercontent.com/gnesvas/sorahgttik/main/shrhh.png');
-            background-size: cover;
-            background-position: center;
-            background-color: #000000;
-            z-index: 2000;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
+        /* شاشة القراءة (قارئ القصص) */
+        .reader-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--reader-bg);
+            z-index: 3000; display: none; flex-direction: column; overflow-y: auto;
+            animation: slideUpReader 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-
-        /* طبقة البلور الخفيفة جداً فوق الصورة عشان ينقري النص */
-        .loading-image-blur {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.2); /* سواد خفيف جداً يسمح بالقراءة */
-            backdrop-filter: blur(1.5px); /* بلور خفيف جداً ما يعمي الصفحة */
-            -webkit-backdrop-filter: blur(1.5px);
-            z-index: 1;
+        @keyframes slideUpReader { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .reader-header {
+            display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(18, 18, 18, 0.9);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
-        /* نرفع العناصر فوق البلور */
-        .spinner, .loading-text, .verification-card, .success-card {
-            z-index: 2;
+        .close-reader { color: #fff; background: rgba(255,255,255,0.1); border-radius: 50%; padding: 5px; cursor: pointer; }
+        .reader-title-top { color: #fff; font-weight: 700; font-size: 14px; letter-spacing: 1px; }
+        
+        .reader-content {
+            padding: 25px 20px 100px 20px; color: var(--reader-text); font-size: 16px; line-height: 1.8;
+            font-family: 'Tajawal', sans-serif;
+            white-space: pre-wrap; 
         }
+        .story-title-main { font-size: 22px; font-weight: 900; margin-bottom: 20px; color: #fff; line-height: 1.4; white-space: normal;}
 
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.2);
-            border-top: 4px solid #ffffff;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+        .blurred-section-container { position: relative; margin-top: 10px; }
+        .blurred-text { filter: blur(6px); opacity: 0.5; user-select: none; pointer-events: none; }
+
+        .cpa-overlay {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 90%;
+            background: rgba(30, 30, 30, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px 20px; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); z-index: 5; box-sizing: border-box; white-space: normal;
         }
+        .cpa-overlay .material-symbols-rounded { font-size: 45px; color: #f39c12; margin-bottom: 10px; }
+        .cpa-overlay h3 { margin: 0 0 10px 0; color: #fff; font-size: 18px; font-family: 'Tajawal', sans-serif;}
+        .cpa-overlay p { margin: 0 0 20px 0; color: #aaa; font-size: 13px; font-family: 'Tajawal', sans-serif; line-height: 1.5;}
 
-        .loading-text {
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 500;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8); /* تظليل للنص عشان يوضح فوق الصورة */
+        .verify-btn {
+            background-color: var(--primary-blue); color: white; text-decoration: none; border-radius: 12px;
+            padding: 14px 15px; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+            width: 100%; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4); font-family: 'Tajawal', sans-serif;
+            border: none; cursor: pointer; transition: 0.2s;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* نوافذ التحقق (تم حل مشكلة خروج الزر بوضع box-sizing وهامش داخلي صح) */
-        .verification-card, .success-card {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 20px;
-            width: 90%; /* تعديل العرض للآيفون */
-            max-width: 340px;
-            padding: 30px 20px; /* هوامش داخلية ممتازة */
-            box-sizing: border-box; /* 🚨 هذا الكود هو اللي يمنع الزر يطلع برا! */
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: none;
-            animation: bounceIn 0.5s var(--ios-bounce);
-        }
-
-        .verification-icon {
-            font-size: 60px;
-            color: var(--ios-red);
-            margin-bottom: 15px;
-        }
-
-        .verification-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1c1c1e;
-            margin-bottom: 10px;
-        }
-
-        .verification-desc {
-            font-size: 13px;
-            color: #3a3a3c;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        /* زر التحقق النهائي */
-        .final-btn {
-            background-color: #34c759;
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            padding: 14px 15px;
-            font-size: 15px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%; /* ياخذ عرض الكرت كامل */
-            box-sizing: border-box; /* يمنعه يتجاوز الحواف */
-            box-shadow: 0 4px 10px rgba(52, 199, 89, 0.3);
-            transition: transform 0.2s, background-color 0.2s;
-            cursor: pointer;
-            border: none;
-        }
-
-        .final-btn:active { transform: scale(0.95); }
-        .final-btn .material-symbols-rounded { margin-left: 8px; }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            70% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); }
-        }
-
+        .verify-btn:active { transform: scale(0.95); }
+        .verify-btn .material-symbols-rounded { margin-left: 8px; font-size: 20px;}
+        .success-btn { background-color: #34c759; display: none; box-shadow: 0 4px 15px rgba(52, 199, 89, 0.4); }
     </style>
 </head>
 <body>
 
-    <div class="overlay" id="overlay"></div>
-
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-image-blur"></div>
-
-        <div class="spinner"></div>
-        <div class="loading-text" id="loadingText">جارِ الاتصال بالخادم ...</div>
+    <div id="stories-database" style="display: none;">
         
-        <div class="verification-card" id="verificationCard">
-            <span class="material-symbols-rounded verification-icon">gpp_maybe</span>
-            <div class="verification-title">فشل التحميل التلقائي!</div>
-            <div class="verification-desc" id="verifyDesc">
-                بسبب الضغط العالي جداً على خوادم المشاهدة الآن، يرجى النقر على الزر أدناه وإكمال خطوة تحقق سريعة  (Captcha) لإثبات أنك لست "روبوت" وبدء تشغيل الفيديوهات فوراً.
-            </div>
-            <a href="https://unlock-content.net/?f892a37" target="_blank" class="final-btn" id="verifyBtn" onclick="startHiddenTimer(event)">
-                <span class="material-symbols-rounded">verified</span>
-                إكمال التحقق البشري وبدء المشاهدة
-            </a>
+        <div class="story-data" id="story-1">
+            <div class="s-title">قصة ليلة الزواج (كابوس الفندق)</div>
+            <div class="s-summary">زواجي كان راقي بكل ما تعنيه الكلمة، القاعة، الزفة، الألماس.. التكلفة تجاوزت النص مليون ريال!
+وزوجي؟ كان "عريس لقطة...</div>
+            
+            <div class="s-clear">يا بنات، أنا اليوم عشت فيلم رعب حقيقي.. فستاني الأبيض اللي كلفني دم قلبي، تحول لـ "كفن" في ليلة دخلتي!
+زواجي كان راقي بكل ما تعنيه الكلمة، القاعة، الزفة، الألماس.. التكلفة تجاوزت النص مليون ريال!
+وزوجي؟ كان "عريس لقطة"، مهندس، محترم، وسيم، وصديقاتي كلهم كانوا ياكلون نفسهم من الغيرة والحسد بسببه، وأبوي كان يهايط فيه بالمجالس من كثر ما هو فخور بنسيبه.
+خلص الزواج، وزفونا لجناح الفندق الفخم.
+أول ما دخلنا وقفلنا الباب، ابتسم لي بحنية وقال: "ألف مبروك يا نبض قلبي.. بدخل آخذ شاور سريع وأغير، خذي راحتك ياعروسة."
+دخل الحمام، وشغل الموية.. وأنا جالسة على طرف السرير بفستاني الثقيل، قلبي يدق من الفرحة.
+بس فجأة.. اندق جرس الجناح!
+استغربت، الساعة ٢ بالليل، مين بيجي الحين؟
+قمت بشويش، فتحت الباب.. وتمنيت إن يدي انقطعت ولا فتحته.
+لقيت قبالي حرمة مبهذلة، عبايتها مليانة تراب، تبكي وتنتفض، وماسكة بيدها طفلين صغار!
+قبل لا أنطق بحرف، دفتني بقوة ودخلت الجناح بكل برود!
+جلست على الكنب، طالعت فيني من فوق لتحت وقالت لي جملة شلت لساني ووقفت دمي:
+"مبروك الزواج يا بنتي.. بس ترا الفلوس اللي اندفعت بالقاعة الفخمة هذي، كلها فلوسي ومن حلالي.. والرجال اللي جالس يتروش بالحمام الحين..هذا.. زوجي وأبو عيالي، وإنتي مجرد كبش فداء عشان يدخلك السجن بداله!"
+وقفت مكاني كأني صنم.
+وش تقول هذي المجنونة؟؟ وش كبش فداء؟
+حاولت أستوعب الصدمة، قلت لها وأنا أرجف: "إنتي من؟ وش هالتخاريف؟ اطلعي برا لا أطلب لك أمن الفندق الحين!"
+ضحكت ضحكة كلها قهر، دموعها تنزل على خدها وقالت: "اطلبي الأمن! اطلبيهم تكفين خليهم يشوفون المهزلة والنصاب اللي جوا!"
+سحبت من شنطتها المقطعة (دفتر عائلة) أخضر رسمي.. ورمته على الطاولة قبالي.
+"شوفي بعينك يا عروسة الغفلة."
+قربت.. شفت الدفتر..اسم زوجي.. واسمها تحته! وتحتهم أسماء الطفلين اللي واقفين يبكون عند باب الجناح!
+الطفل الكبير عمره ٥ سنين.. نسخة مصغرة من زوجي! نفس العيون، نفس الملامح!
+انخرس لساني.
+زوجي اللي خطبني وقال إنه أعزب ما سبق له الزواج؟ اللي أهله حلفوا لأبوي على القرآن إنه ما عمره ارتبط؟
+الحرمة قربت مني، ومسكت ذراعي بقوة وقالت بكلام يذبح:
+"أنا بنت عمه.. متزوجني من ٦ سنين بالسر لأن أهله ما يبوني بسبب مشاكل ورث قديمة. عايشة معاه بشقة إيجار تكسر الظهر، وأصرف عليه من ورث أبوي الله يرحمه."
+"قبل شهرين، أخذ مني وكالة عامة! حلف لي إنه بيشتري لي أرض باسمي ويأمن مستقبلي ومستقبل عياله."
+سحبت أوراق من الشنطة وبدأت ترميها بوجهي ورقة ورا الثانية:
+"تدرين وش سوى بالوكالة؟ باع أرضي، سحب كل رصيدي بالبنك، وأخذ قروض باسمي عشان يسوي لك هالزواج ويرضي غرور أمه المريضة اللي تبي تكايد العايلة بزواج ولدها!"
+طحت على الكنب.. ما قدرت أوقف.. رجولي ما عادت تشيلني.
+الطرحة طاحت من راسي، مكياجي كله تلطخ من الدموع اللي صارت تنزل كأنها جمر يحرق وجهي.
+بس المصيبة.. الكارثة الحقيقية ما وقفت هنا.
+الحرمة نزلت عندي، وهمست بإذني كأنها تبي تذبحني ببطء:
+"تدرين ليش اختاروك إنتي بالذات؟ تدرين ليش عايلتكم؟"
+"أنا تتبعت الأوراق والفضايح اليوم... المعرس الكذاب ما كتب المؤخر حقك باسمه!
+الشيكات حقت القاعة، حقت تذاكر السفر لباريس، حقت الألماس اللي أنتي لابسته الحين... كلها موقعة باسم مؤسسة تجارية!"
+"والمؤسسة هذي... فتحها باسمك إنتي!! تتذكرين قبل أسبوعين يوم طلب بطاقتك وتوقيعك وقال لك عشان يخلص إجراءات الفيزا والسفر؟"
+شهقت وحطيت يدي على فمي.
+كملت وهي تبكي: "هو مخطط يهرب! تذكرتين السفر اللي معاه وحدة له ووحدة لأمه! بيهرب برا البلد بكرة الفجر بالفلوس اللي باقية من ورثي ومن القروض! وإنتي؟ إنتي بتلبسين قضايا شيكات بدون رصيد، وديون فوق المليونين ريال، بتدخلين السجن بكرة الصبح بليلة صباحيتك!!"
+
+حسيت روحي تطلع مني.
+أتنفس بس ما يوصلني هوى. الغرفة تدور فيني.
+استغلني! العريس اللقطة! المهندس المحترم اللي أبوي يرفع راسه فيه!
+طلع نصاب! محتال خبيث! ضحى ببنت عمه وأم عياله، وضحى فيني أنا ودمر مستقبلي، عشان يعيش ملك ويهرب!!
+
+وفجأة...
+سمعت صوت الموية يوقف بالحمام زوجي بيطلع.
+الحرمة وقفت بسرعة، مسكت يد عيالها، وقالت لي:
+"أنا بلغت الشرطة وهم بالطريق للفندق، بس أنا بطلع الحين، ما أبي عيالي يشوفون أبوهم مكلبش وينصدمون فيه طول عمرهم.. أنتي دبري نفسك."
+فتحت الباب وطلعت تركض.. وخلتني أواجه كابوسي، لحالي.
+سمعت صوت قفل الحمام ينفتح... ..</div>
+            
+            <div class="s-blurred"> .
+"حبيبتي؟ جاهزة يالعروسة؟"
+صوته من ورا الباب كان كله دلع وكذب!
+بثانية وحدة.. الخوف اللي كان فيني تحول لبركان.. نار تحرق صدري!
+مسحت دموعي الأسود اللي لطخت وجهي.. وقفت على حيلي.. الفستان الثقيل ما عاد يهمني.
+مسكت دفتر العائلة حقته، وأوراق المؤسسة الوهمية بيدي.
+طلع من الحمام، لابس روب الفندق، ينشف شعره ومبتسم ابتسامة شقاقية.
+أول ما شافني واقفة بنص الجناح، مكياجي سايح، وعيوني حمرا كأنها دم.. وقفت ابتسامته.
+قال بتوتر: "سارة؟ وش فيك؟ ليش تبكين؟"
+رميت دفتر العائلة بوجهه بكل قوتي!
+طاح الدفتر عند رجله.. نزل عينه شافه.. ووجهه صار أبيض كأنه ميت!
+صرخت بأعلى صوتي لدرجة أحس حبالي الصوتية تقطعت:
+"جاهزة يالعروسة؟؟ جاهزة ألبس بدلة السجن بكرة الصبح عشانك يا نصااااب؟؟ يا كلب يا حرامي!!"
+انصدم! تراجع لورا وهو يطالع الأوراق اللي بيدي، عرف إن اللعبة انكشفت!
+حاول يستغبى، تقدم يبي يمسكني: "سارة اهدي! خليني أفهمك، هذي بنت عمي مريضة نفسياً وتتبلى علي!"
+عطيته كف!
+كف طير قطرات الموية من شعره ورجعه خطوتين لورا!
+قلت له وأنا أرجف من الغضب: "لا تلمسني يا خاين! الفلوس اللي سرقتها، المؤسسة اللي باسمي، تذاكر الهروب حقت بكرة الفجر! كلها عرفتها! الشرطة بالطريق يا واطي!"
+أول ما سمع كلمة (الشرطة)، قناعه طاح بالكامل!
+نظرة الحنية اللي بعيونه تحولت لنظرة شيطان مرعب.
+دفني بقوة على السرير، وراح يركض للدولاب، سحب شنطته اليدوية اللي فيها الجوازات ورزم الفلوس اللي سرقها، وكان يبي يهرب من الجناح!
+قمت بسرعة البرق، وقفت قدام الباب وسديته بجسمي وفستاني.
+صرخ بوجههي وهو يرفع يده يبي يضربني: "وخري عن الباب يا غبية!! وخري لا أذبحك الحين!"
+قلت له وأنا أطالع بعيونه اللي كلها رعب: "اذبحني!! بس والله ما تطلع من هالخطوة إلا على جثتي! أبوي ما رباني عشان واحد زبالة مثلك يلبسني قضايا ويهرب!"
+مسكني من ذراعي بقوة يبي يسحبني، صرت أقاوم، أصرخ وأضربه بيدي، كسر أظافري، شق فستاني من فوق، بس كنت متمسكة بمقبض الباب مستحيل أخليه يفتحه!
+وباللحظة اللي رفع يده بيعطيني بوكس بوجهي عشان يوخرني...
+الباب انكسر من برا!! وأنا بسرعه رحت لجهة السرير
+انفتح الباب بقوة وضرب بظهره وطاح على الأرض!
+دخلوا ٤ عساكر، وضابط، ومعهم.. أبوي! أبوي اللي بشت العرس باقي على كتفه!!
+أبوي أول ما شافني منهارة وفستاني مشقوق، وشاف النصاب طايح على الأرض وروب الفندق مفتوح والشنطة جنبه..
+هجم عليه زي الأسد!
+أبوي مسكه من ياقته ودعس على صدره برجله وهو يصارخ: "يا كلب!! تأمنك على بنتي وتبي تسجنها يا محتال!!"
+العساكر سحبوا أبوي بالقوة، وكلبشوا العريس (اللقطة) وهو منسدح على بطنه، ذليل، منكسر، ووجهه بالأرض.
+الضابط سحب الشنطة، لقى فيها الجوازات، تذاكر الهرب، وشيكات مصدقة مسروقة.
+انسحب من الجناح مكلبش بروب الفندق.. قدام نزلاء الفندق كلهم اللي طلعوا يتفرجون على الفضيحة.
+وأنا.. طحت بحضن أبوي وأنا أشهق من البكا، أبوي غطاني ببشته، وطلعني من الفندق كأني أميرة نجت من مجزرة.
+
+اليوم، النصاب يقبع في السجن، صدرت بحقه أحكام سجن تتجاوز الـ ١٥ سنة بتهمة النصب، الاحتيال، التزوير، واستغلال الثقة.
+أبوي جاب أقوى محامين في البلد، أسقطوا كل القضايا اللي كانت بتتسجل باسمي، ورجعوا لبنت عمه جزء كبير من حلالها.
+تطلقت منه قبل لا يمر على زواجي ٢٤ ساعة.
+صح إني انكسرت ليلتها.. بس وقفتي قدام الباب، والكف اللي عطيته إياه.. برد قلبي وخلاني أعرف إني قوية، وإن بنات الأصول ما ينلعب عليهم، واللي يحفر حفرة لبنت الناس.. يطيح فيها وهو مكلبش!
+وانتهت القصة. .</div>
         </div>
 
-        <div class="success-card" id="successCard">
-            <span class="material-symbols-rounded verification-icon" style="color: #34c759;">check_circle</span>
-            <div class="verification-title">تم التحقق بنجاح!</div>
-            <div class="verification-desc">
-                شكراً لك، تم التأكد من هويتك بنجاح. يمكنك الآن مشاهدة الفيديوهات الحقيقية وبدء الشرح مباشرة.
-            </div>
-            <a href="https://shhdshe.gumroad.com/l/vlghf" class="final-btn" style="background-color: var(--primary-blue);">
-                <span class="material-symbols-rounded">play_circle</span>
-                تشغيل الفيديوهات الآن
-            </a>
+<div class="story-data" id="story-2">
+            <div class="s-title"> قصة "صورة السونار" (خيانة العمر والعقم)</div>
+            <div class="s-summary"> يا بنات، أنا اليوم واقفة على حافة الجنون..
+أنا مو بس انطعنت بظهري، أنا انذبحت بسكين باردة من أقرب روحين لقلبي...</div>
+            
+            <div class="s-clear">يا بنات، أنا اليوم واقفة على حافة الجنون..
+أنا مو بس انطعنت بظهري، أنا انذبحت بسكين باردة من أقرب روحين لقلبي.
+عشان تستوعبون حجم المصيبة اللي طاحت على راسي اليوم، لازم أرجعكم ورا شوي.
+لازم تعرفون مين هي "حصة".. ومين هو "زوجي".
+حصة مو صديقة.. حصة أختي اللي ما جابتها أمي، عشرة ١٢ سنة من أيام مقاعد الجامعة.
+تعرف كم سكر أحط بقهوتي، وتعرف متى أكون زعلانة من نبرة صوتي بس.
+لما تزوجت أنا قبلها، هي اللي كانت تمسك ذيل فستاني، وتمسح دموع التوتر من عيني.
+ولما بدأت رحلتي المرعبة مع "العقم".. كانت هي عكازي.
+٥ سنين وأنا أركض من مستشفى لمستشفى، من عيادة لعيادة.
+أبر تنشيط، سحب بويضات، حقن مجهري، وانهيارات شهرية.
+حصة كانت تمسك يدي بغرفة الانتظار، تبكي معي إذا نزلت الدورة، وتمسح على راسي وتقول: "ربي بيعوضك يا سارة، ربي بيفرح قلبك".
+وزوجي؟ كان يمثل دور "الملاك" ببراعة تخوف!
+كان يضمني وأنا أشهق من البكا ويقول: "أنتي عيالي، أنتي دنيتي، لو ما جبنا أطفال، يكفيني إنك بحياتي".
+كنت أقول لحصة: "أنا محظوظة فيه"، وكانت تبتسم وتقول: "هذا نادر، تمسكي فيه".
+قبل فترة بسيطة.. حصة دقت علي تبكي من الفرحة، بشرتني إنها حامل.
+طبعاً هي كانت متزوجة شخص من برا العايلة (أو كذا كانت مفهمتني)، وزوجها دائماً مشغول وما أشوفه.
+من فرحتي لها، نسييييت همي، نسيت حرماني، وقررت أسوي لها حفلة "بيبي شاور" على حسابي.
+تكفلت بكل ريال، القاعة، الورد، التوزيعات.. كنت أبيها تعيش أجمل يوم بحياتها.
+اليوم.. كنا مجتمعين ببيتي، نتقهوى أنا وياها بعد ما خلصنا ترتيبات الحفلة.
+كانت منسدحة على كنب الصالة، تتأوه وتتدلع بحكم الحمل.
+قالت لي: "سوير يا عمري، ظهري يوجعني، تكفين جيبي العلاج من شنطتي بغرفة النوم".
+قلت لها: "من عيوني، ارتاحي أنتي بس".
+مشيت لغرفة النوم بكل براءة.. دخلت، شفت شنطتها على التسريحة.
+فتحت الشنطة أدوّر العلاج.. وأنا أدور، يدي دخلت بجيب داخلي سري بالغلط.
+طاحت منه ورقة مطوية.. ورقة أشعة "سونار" حق جنين.
+ابتسمت لا إرادياً.. شلتها ولفيتها عشان أشوف ملامح النونو حق صديقة عمري.
+بس عيني.. عيني لمحت كلام مكتوب بخط اليد ورا الصورة.
+قلبت الصورة بشوف وش مكتوب..
+وباللحظة اللي قريت فيها أول سطر..
+أقسم بمن أحل القسم، إن قلبي وقف.. ودمي تجمد بعروقي.. والسطر اللي قريته خلاني أطيح على ركبتي وأنا أشهق...الكلام المكتوب ورا الصورة.. كان بخط زوجي.
+الخط اللي أحفظه أكثر من ملامح وجهي.
+الخط اللي كان يكتب لي فيه كروت الهدايا ومسجات الحب.
+كان مكتوب وبالحرف الواحد:
+"أخيراً يا عمري.. ثمرة حبنا بتنور الدنيا.. أحبك يا أم ولدي، وهانت.. كلها كم شهر بس وتولدين بالسلامة، وأطلق العاقر وأعلن زواجنا قدام الكل".
+العاقر...
+كلمة "العاقر" انكتبت كأنها رصاصة اخترقت نص جبهتي.
+يقصدني أنا؟
+زوجي.. اللي كان يمسح دموعي ويمثل الحنية.. يكتب عني "العاقر"؟!
+ولمين؟ لحبيبته.. اللي هي أعز صديقاتي!!
+ورب الكعبة يا بنات إني حسيت الغرفة تدور فيني.
+الهوا انقطع من صدري، صرت أفتح فمي أبي أتنفس مو قادرة.
+يدي صارت تنتفض وترجف بطريقة هستيرية لدرجة إن صورة السونار طاحت منها.
+ركبي ما عادت تشيلني، زحفت على الأرض في الممر، بعيد عن الصالة اللي هي منسدحة فيها.
+حطيت يدي الثنتين على فمي وكتمت صرخة كانت بتشق جدران البيت.
+رجع شريط ذكرياتي معاها يمر قدام عيوني كأنه فيلم رعب قاعد ينعرض بالتصوير البطيء.
+تذكرت يوم كانت تواسيني بالعيادة!
+كانت تطقطق علي!! كانت تشوفني مكسورة وتضحك علي من داخلها!
+تذكرت سفريات زوجي المفاجئة لـ "دبي" بحجة انتداب عمل ضروري.
+وتذكرت إن حصة كانت دايماً تسافر مع "أهلها" أو "صديقاتها" بنفس الأوقات وبنفس الأيام!
+كيف كنت غبية؟ كيف كنت عميا؟!
+كنا نتصل عليها فيديو من جوالي أنا وزوجي ونضحك معاها وهي في غرفتها بالفندق..
+وهو كان يضحك ويسولف معاها قدامي.. وهم أصلاً متزوجين بالسر!!
+كانوا ينامون بنفس السرير، وعايشين قصة حب.. على حساب دموعي، وقهري، وعمري اللي قاعد يضيع في عيادات العقم.
+استوعبت إن كل هذاك الحنان اللي كان يعطيني إياه، كان مجرد تخدير عشان ما أحس ولا أشك.
+استوعبت إن الفلوس اللي دفعتها لحفلة استقبالها.. هي لحفلة استقبال ولد زوجي!
+أخذت جوالي من جيبي ويدي ترجف.
+صورت صورة السونار من قدام، ومن ورا عشان يبين خطه بوضوح تام، أخذت أكثر من لقطة عشان ما يقدرون ينكرون.
+رجعت الصورة داخل الشنطة، ومسحت دموعي بكمّي.
+وقفت على حيلي..
+في هاللحظة، أنا مت. سارة الضعيفة المكسورة اللي تبكي على الأطفال ماتت.
+واللي وقفت الحين، وحدة ثانية.. روحها تحترق وتبي تحرقهم معها.
+جسمي يتحرك بآلية، برود غريب سيطر علي.
+مشيت بخطوات ثقيلة لين دخلت الصالة.
+كانت منسدحة على الكنب، تلعب بجوالها ومبتسمة ابتسامة مستفزة.
+طالعت فيها.. </div>
+
+     <div class="s-blurred"> هذي مو حصة.. هذي أفعى، هذا شيطان تجسد على هيئة صديقة ودخل بيتي.
+مشيت لين وقفت فوق راسها بالضبط.
+ظلي غطى عليها، فرفعت عيونها لي.
+قلت لها بصوت هادي، هادي لدرجة إنه يخوف: "حصة.. قومي."
+رفعت راسها مستغربة، عقدت حواجبها: "وش فيك سارة؟ وجهك أصفر؟ لقيتي العلاج؟"
+قلت لها وأنا أضغط على كل حرف: "قومي.. واطلعي.. برا.. بيتي."
+ضحكت باستهزاء، ضحكة متوترة: "بسم الله وش الطاري؟ زعلتي لأني طلبت العلاج وتعبتك؟ تراي حامل يالخايسة راعيني."
+كلمة حامل خلت الدم يغلي براسي.
+سحبت شنطتها اللي على الطاولة جنبها، وفتحتها بقوة.
+طلعت صورة السونار.. ورميتها بنص وجهها.
+قلت لها وصوتي يرجف من القهر: "مبروك يا أم ولده.. ومبروك عليه العاقر اللي بتفضحكم اليوم، وبتخليكم علك بحلوق الناس."
+وجهها... لو أقول لكم انخطف لونه أكون كذابة.
+وجهها صار رمادي، كأن الدم انسحب منه بثانية.
+عيونها توسعت برعب، شفايفها صارت ترجف وما هي قادرة تنطق حرف.
+طاحت الصورة بحضنها، وشافت خط زوجي.
+قامت بسرعة البرق وحاولت تمسك يدي وهي تبكي وتشاهق: "سارة.. سارة تكفين اسمعيني.. والله العظيم غصب عني.. والله إني ما كنت أبي..."
+قبل لا تكمل الجملة..
+عطيتها كف.
+كف جمعت فيه قهر ٥ سنين.. قهر الإبر، والعمليات، ودموع الحرمان، واستغفالهم لي.
+كف بكل ما أوتيت من قوة طيرها ورجعها طاحت على الكنب.
+صرخت بأعلى صوتي لدرجة أحس حبالي الصوتية تقطعت:
+"براااااا!! قسماً بعزة الله.. قسماً بمن أحل القسم لو ما تطلعين الحين وتذلفين عن وجهي، لأفضحك بحارتكم، وبجروب عايلتكم، وأخلي اللي ما يشتري يتفرج عليك!!"
+صارت تبكي بهيستيريا، لمت عبايتها وأغراضها وطلعت تركض للشارع وهي حافية.
+انرقع الباب وراها.
+وأنا.. ما نزلت مني دمعة وحدة.
+الصدمة كانت أكبر من إني أبكي.
+رحت لغرفة النوم.. طلعت أكبر شنطة سفر عندي.
+فتحت الدولاب.. ورميت كل ملابس زوجي فيها.
+كل بدله، كل عطوره، كل ساعاته اللي أنا شريتها له.
+سكرت الشنطة، سحبتها للحوش، ورميتها برا عند الباب الخارجي.
+رجعت البيت، قفلت الباب، وفتحت الواتساب.
+أرسلت له صورة السونار من الوجهين.
+وكتبت تحتها رسالة وحدة بس:
+"ملابسك بالحوش.. وورقة طلاقي توصلني بكرة الصبح للمحكمة. لو فكرت بس تدق باب البيت، أو تتصل، أو ترسل أحد.. الصورة هذي مع رسالتك بخط يدك بتوصل لأمك وأبوي وإخواني وعمامك.. وبخليك فضيحة بالمجالس إنت وزوجتك السرية."
+سويت له بلوك من كل مكان.
+سويت لها بلوك.
+قفلت جوالي، ورميته على الطاولة.
+وجلست بالصالة لحالي.
+البيت هادي.. هدوء يقتل.. بس داخلي بركان يغلي.
+٥ سنين من عمري راحت كذب في كذب.
+خسرت زوجي.. وخسرت أختي.. وخسرت حلم الأمومة اللي كنت أتمناه..
+بس والله، ثم والله.. ما أنكسر.
+والله لأعيش، وأوريهم إن "العاقر" اللي استغفلوها.. تسوى طوايفهم كلهم.
+ادعوا لي يا بنات.. ادعوا لي ربي يمسح على قلبي، لأن النار اللي شابة بصدري الحين.. ما يطفيها بحر.  .</div>
+        
         </div>
+
+ <div class="story-data" id="story-3">
+            <div class="s-title">قصة بيت العائلة</div>
+            <div class="s-summary">ساكنين بفيلا عائلة وحدة، أخوي ساكن بالدور اللي فوقي مع زوجته اللي نعتبرها "ملاك" العايلة.
+الفترة الأخيرة بديت أفقد قطع من ذهبي، وزوجي يحلف لي إني مضيعتها أو الشغالة سارقتها.
+اليوم نزلت المطبخ الساعة ٣ الفجر، وسمعت...</div>
+            
+            <div class="s-clear"> يا بنات، اللي عشته الليلة مو خيانة عادية.. هذي طعنة شقت ظهري وظهر أخوي وعزوتي في نفس اللحظة.
+عشان تستوعبون الكارثة، إحنا ساكنين بفيلا عائلة وحدة، أخوي ساكن بشقته بالدور اللي فوقي مع زوجته.
+زوجته هذي.. العايلة كلها تعتبرها "الملاك" النازل من السما.
+صوتها ما ينسمع، عيونها بالأرض، سبحتها بيدها، ومسوية فيها المطوعة الهادية اللي ما تتدخل بأحد.
+الفترة الأخيرة، بديت ألاحظ أشياء تختفي من غرفتي.. بديت أفقد قطع من ذهبي!
+ولما أقول لزوجي وأنا أبكي ومقهورة، كان يقلب الطاولة علي ويصارخ:
+"أنتي مهملة! أنتي مضيعتها وتتبلين على الناس! تلاقين الشغالة زرفته من غبائك!"
+كنت أسكت وأكتم قهري، وأقول يمكن صدق أنا مضيعتها.
+اليوم.. وتحديداً الساعة ٣ الفجر.
+نزلت المطبخ أشرب مويه، والدنيا ظلام وهدوء يقتل.
+فجأة، سمعت صوت همس.. صوت حركة غريبة جاية من الحوش الجانبي للفيلا.
+قلبي بدأ يدق بسرعة، مشيت بشويش حافية عشان ما يطلع لي صوت.
+طليت من شباك المطبخ بالظلام الدامس..
+وشفت صدمة عمري!
+شفت "ملاك العايلة" مرت أخوي، واقفة بالظلام وتمد كيس مخمل حق مجوهرات لرجال متلثم!
+في هاللحظة انقهرت، قلت بس هذي هي الحرامية اللي تسرقني وتبيع ذهبي!
+كنت بفتح الشباك وأفضحها..
+بس الصدمة اللي شلت كل عرق بجسمي، وخلتني أطيح على ركبتي وأكتم أنفاسي بيدي..
+هي اللحظة اللي هالرجال نزل فيها اللثمة عشان يتكلم.
+لأن الرجال اللي استلم الكيس بالظلام.. طلع....طلع زوجي.
+إي نعم، زوجي أنا. حبيب عمري، سندي، وأبو عيالي.
+ورب الكعبة يا بنات إن رجولي ما عادت تشيلني، طحت على ركبتي في أرضية المطبخ الباردة.
+يدي كانت ترجف لدرجة إني عضيت أصابعي بأسناني لين طعم الدم طلع بفمي، بس عشان ما أصرخ وأفضح الدنيا.
+كتمت أنفاسي وزحفت تحت الشباك، صرت أسمع كل حرف يقولونه كأنه رصاص ينضرب براسي.
+الكيس المخمل اللي كان بيدها... هذا كيس طقم الألماس حقي!
+طقمي اللي ضاع الشهر اللي راح، واللي زوجي حلف لي كذب إنه بيدور عليه وكسر الدنيا بالصراخ عشانه!
+سمعت زوجي يضحك بصوت واطي، ضحكة خبيثة وهو يفتح الكيس ويشوف اللمعة بالظلام.
+قال لها: "يا مجنونة! هذا طقم زواجنا، لو شافته بتعرفه وبتفضحنا!"
+ردت عليه بصوت دلع ومايع.. الصوت اللي ما عمرنا بحياتنا سمعناه منها!
+وين الصوت الواطي؟ وين الحيا؟
+قالت له وهي تضحك: "ببيعه بكرة الصبح عند الصايغ اللي نتعامل معاه، وبحولك فلوسه العصر عشان تكمل دفعة الشقة."
+أي شقة؟؟ وش شقته يا كلاب؟؟
+بهاللحظة، شفت المنظر اللي خلاني أتمنى الأرض تنشق وتبلعني ولا أشوفه.
+زوجي سحبها من خصرها.. سحب مرت أخوي!! زوجة سندي وعزوتي!!
+باس راسها وقال لها بحنية ما عمره عطاني إياها:
+"هانت يا عمري، اصبري علي.. كلها شهرين ونأثث شقتنا، ونعلن زواجنا السري ونرتاح من هالقرف والتخفي."
+زواج سري؟؟؟ متزوجين؟؟؟
+حسيت كأن أحد كب قدر مويه مغلية على راسي.
+زوجي متزوج مرت أخوي مسيار.. من وراي.. ومن ورا أخوي!!
+وتحت سقف واحد! ببيت العائلة!
+في ثانية وحدة.. رجع شريط ذكرياتي كله يمر قدام عيوني كأنه كابوس قاعد يفسر نفسه.
+تذكرت عزيمتنا برمضان اللي راح..
+يوم زوجي تعذر وقال "بطلع الحوش أدخن راسي يوجعني".. وهي فجأة بلحظتها قالت "بنات بروح أجيب أغراض من سيارتي نسيتها".
+تذكرت يوم أخوي مسكين تنوم بالمستشفى أسبوع يسوي عملية قلب مفتوح!
+أخوي بين الحياة والموت.. وزوجي كان يقول لي: "حبيبتي ببات بالملحق تحت عشان ما أزعجك بصحوة الدوام، وأنتي نفسيتك تعبانة على أخوك".
+كانوا مع بعض!!
+ببيتي!! ببيت أخوي المريض!!
+ينامون مع بعض ويخططون على شقتهم بفلوسي وذهبي، واحنا مغفلين نايمين فوق!
+كنت أقول لها يا أختي! كنت أعطيها ملابسي، وأشكي لها همومي مع زوجي!
+أخوي كان يعتبر زوجي مثل أخوه اللي ما جابته أمه.. كان يشاركه بحلاله، وبزنسه، ومدخله بيته!
+طلعت الخيانة مزدوجة... طعنة بقلبي أنا، وطعنة بظهر أخوي.
+سمعت باب الحوش الجانبي ينقفل بشويش.
+هي ركبت الدرج الخارجي لشقة أخوي بخفة كأنها حية، وهو فتح باب المطبخ الخارجي ودخل.
+زحفت بسرعة البرق وتخبيت ورا طاولة الطعام بالظلام أكتم أنفاسي.
+شفته يمر من عندي.. ماسك طقمي الألماس بيده، ومبتسم ابتسامة شقاقية.
+طلع الدرج لغرفتنا يكمل نومته بسريري.. كأن شيئاً لم يكن.
+بقيت أنا محبوسة في المطبخ بالظلام.
+أنا وش أسوي الحين؟؟ وش أسوي يا ناس؟؟
+أطلع أفضحه الحين؟ أصحّي أخوي من النوم وأقول له انزل شوف زوجتك والنسيب؟
+أخوي مريض قلب! أخوي لو عرف إن زوجته اللي يموت فيها ويحطها على يمنى راسه تخونه مع نسيبه.. بيجيه جلطة ويموت بمكانه!
+ولو واجهت زوجي الحين ونكر؟
+بيقول أنا كنت أساعدها بفلوس سلف.. بيقلب الطاولة علي ويقول أنتي مجنونة وتتوهمين وتتبلين على بنت الناس.
+الدموع نشفت بعيني من قوة الصدمة.
+صرت أحس بغثيان مو طبيعي، كل مرة أتخيلهم مع بعض وبسرير واحد أحس إني بستفرغ.
+فكرت أروح أدق باب أخوي وأقول له فتش جوال زوجتك الحين، الحين!
+بس خايفة! خايفة من الفضيحة اللي بتكسر ظهر أبوي وأمي اللي كبروا بالعمر.
+عايلتنا بتتدمر.. سمعتنا بتصير بالوحل بين القبايل.
+كيف كانوا يقعدون معانا على نفس السفرة؟ كيف ياكلون من أكلنا ويضحكون بوجيهنا؟
+كيف كانت تناظرني بعيني وتمسك يدي وتقول لي: "الله يخليك لزوجك ما شاء الله شايلك شيل يحبك".
+كانت تطقطق علي! كانت تضحك على غبائي وأنا أصدقها!
+طلعت جوالي ويدي ترجف..
+فتحت تطبيق البنك حق زوجي، أنا حافظة الباسوورد حقه من زمان ولا فكر يغيره لأنه واثق إني "غبية".
+راجعت الحوالات حقت آخر ٦ شهور.
+لقيت حوالات شهرية بمبالغ خيالية بأسماء غريبة!
+ولما بحثت عن أرقام الحسابات في تحويلات سابقة... طلعت كلها باسم أخت مرت أخوي!
+كانوا يحولون الفلوس عن طريق أختها عشان ما ينكشفون ولا تبين الأسماء!
+فلوسنا.. ذهبي.. تعبي.. كله كان يروح لها ولشقتهم!
+جلست على بلاط المطبخ لين أذن الفجر.
+أذن الفجر وأنا قررت قراري.
+ما راح أصحي أحد الحين. وما راح أواجه زوجي الحين.
+بكرة الصبح..لما زوجي يطلع... </div>
+
+     <div class="s-blurred"> لدوامه ويقفل الباب.
+ولما أخوي يطلع لشركته ويفضى البيت.
+بطلع لغرفتها فوق بالدور الثاني.
+بدخل عليها غرفتها.. وبقفل الباب بالمفتاح وبحطه بجيبي.
+وما راح أطلع من هالغرفة إلا وهي معترفة بكل حرف وكل جريمة.. ومسجلته فيديو بصوتها وصورتها بجوالي.
+إما تتصل على أخوي الحين، وتطلب الطلاق وتتنازل عن كل شي..
+وتاخذ خلاقينها وتنقلع من حياتنا وحياة أخوي للأبد بهدوء وبدون ما تجيب طاري الخيانة عشان صحة أخوي..
+أو قسم بالله، وعهدٍ علي.. لأرسل الفيديو في جروب العايلة الكبير..
+وأخليها ما تسوى ريال، وأفضحها فضيحة تهز جدران الرياض كلها.
+وفعلاً.. جا الصباح.
+الساعة ٨ الصبح، سمعت باب الشارع ينقفل.
+أخوي طلع لشركته، وزوجي (المصون) طلع لدوامه.
+البيت صار فاضي، ما فيه إلا أنا، وهي، وهدوء يسبق العاصفة.
+غسلت وجهي بماء بارد عشان أصحصح وأطرد أي ذرة ضعف أو شفقة من قلبي.
+طلعت الدرج لشققتها فوق، خطواتي كانت ثقيلة بس ثابتة.
+وصلت لغرفتها، فتحت الباب بدون ما أستأذن، ودخلت.
+كانت جالسة على التسريحة، تمشط شعرها وتطقطق بجوالها ومروقة على الآخر.
+لفت وجهها باستغراب وقالت بصوتها الهادي المستفز: "بسم الله! سارة؟ خوفتيني، وش فيك داخله كذا؟"
+قفلت الباب وراي، طقيت المفتاح، وسحبته وحطيته بجيبي.
+وقفت قبالها، طالعت بعيونها وقلت لها بدون أي مقدمات:
+"طقم الألماس اللي انباع اليوم الصبح.. جاب لكم حق دفعة الشقة ولا باقي عليه شوي؟"
+الجوال طاح من يدها على البلاط.. انكسرت شاشته بس ما همها.
+وجهها اللي كان مورد صار أصفر مثل الليمونة في ثانية وحدة.
+قامت وهي ترجف وتتأتئ: "طـ.. طقم إيش؟ شقة إيش؟ سارة وش قاعدة تخربطين أنتي؟"
+قربت منها لين صار وجهي بوجهها وصرخت بصوت مكتوم:
+"الساعة ٣ الفجر يا حية! بالحوش! تحت الشباك! سمعت كل حرف.. كل تخطيط.. زواجكم السري، وحوالات أختك، وسحبات زوجي، وخيانتكم لأخوي المريض اللي نايم بغرفته!"
+هنا، الملاك البريء انهار.
+طاحت على ركبها قدامي.. صارت تبكي وتشاهق وتمسك عبايتي:
+"سارة تكفين.. سارة والله العظيم غصب عني، هو اللي جرجرني، هو اللي ضحك علي وقال بيتزوجني! سارة استري علي الله يستر عليك، أخوك مريض بيموت لو عرف!"
+سحبت عبايتي من يدها بقرف.
+طلعت جوالي من جيبي وفتحت الكاميرا.
+قلت لها: "قدامك خيارين لا ثالث لهم، والثالث فضحيتك بجلاجل.
+الخيار الأول: أمسك هالجوال الحين، وأدق على أخوي وأقول له تعال شوف زوجتك والنسيب، وأرسل المحادثات لجروب العايلة، وأخلي أبوك وإخوانك يغسلون عارهم بدمك.
+الخيار الثاني: أفتح تسجيل الفيديو الحين.. وتعترفين بكل حرف وكل ريال وكل خيانة سويتوها، وبعدها تمسكين جوالك، تدقين على أخوي تطلبين الطلاق لأسباب شخصية وتتنازلين عن كل حقوقك، وتلمين خلاقينك وتطلعين من هالبيت في أقل من نص ساعة وبدون ما تفتحين فمك بكلمة تضره!"
+شهقت وهي تبوس يدي: "بسجل! بسجل اللي تبين بس لا تفضحيني!"
+فتحت الكاميرا.. وسجلت اعترافها كامل.
+صوتها، صورتها، وانهيارها وهي تعترف بخيانتها لأخوي وزواجها من زوجي.
+بمجرد ما قفلت الفيديو، مسكت جوالها ودقت على أخوي.
+أخوي انصدم، حاول يفهم، بس هي كانت تبكي وتقول له: "أنا ما أصلح لك، أنا أطلب الطلاق وتنازلت عن كل شيء، بس تكفى طلقني الحين."
+أخوي من الصدمة وعزة النفس قال لها: "أنتي طالق، وعفشك يوصلك لبيت أهلك."
+في أقل من ربع ساعة، لمت عبايتها وشنطة يدها وطلعت تركض للشارع كأنها كلب مطرود.
+البيت نضف من ريحتها.
+العصر.. رجع "عريس الغفلة" من دوامه.
+لقى شنط ملابسه كلها مقطوطة بالحوش الخارجي، ومفتاح البيت مغير.
+دق علي مية مرة ما رديت.
+أرسلت له فيديو اعتراف زوجته السرية على الواتساب.
+وكتبت تحته:
+"لعبة الشقة انتهت، ومرت أخوي تطلقت وانطردت.. وملابسك عندك، وورقة طلاقي توصلني بكرة، وإذا فكرت تفتح فمك بحرف واحد.. الفيديو هذا بيكون ترند في مجالس رجال العايلة كلهم."
+شاف الفيديو.. انصدم.. وما قدر حتى يرد بحرف واحد.
+أخذ شنطته، وركب سيارته، وانسحب مثل الجبان.
+أخوي تضايق فترة، بس ربي نجاه من حية كانت بتقتله، وأنا صح إني خسرت زواجي، وصدمني الشخص اللي أمنته على عمري..
+بس والله، إني نمت ذيك الليلة وأنا حاسة إني أقوى إنسانة بالدنيا.
+نضفت بيتي، ونضفت حياة أخوي، واللي يغدر فيني.. أدعسه وأكمل طريقي.
+انتهت.  .</div>
+        
+        </div>
+<div class="story-data" id="story-4">
+            <div class="s-title">قصة "عزيمة الشاليه" (مكيدة الميراث والجنون)</div>
+            <div class="s-summary">أبوي كان تاجر معروف، توفى قبل فترة بسيطة، وترك لي أنا وأختي الوحيدة ورث يقدر بعشرات الملايين وعقارات وأملاك ما تنعد....</div>
+            
+            <div class="s-clear"> يا جماعة، الفلوس تعمي النفوس.. بس توصل إنهم يخططون يجننوني ويدخلوني مستشفى شهار؟!
+أبوي كان تاجر معروف، توفى قبل فترة بسيطة، وترك لي أنا وأختي الوحيدة ورث يقدر بعشرات الملايين وعقارات وأملاك ما تنعد.
+أنا كنت منهارة على فراق أبوي، وأختي جاتني تبكي وتمثل الحنية، واقترحت نستأجر شاليه كبير ومقطوع نجمع فيه العايلة (خوالي وعمامي) بكرة، عشان نغير جو الحزن اللي كاسر ظهرنا.
+اليوم إحنا لحالنا بالشاليه نجهز الترتيبات.. والساعة ٤ الفجر، قمت من نومي عطشانة وريقي ناشف.
+الفيلا حقت الشاليه كانت هادية هدوء يرعب، طلعت للصالة، وفجأة.. سمعت صوت همس وضحك خفيف جاي من جهة المسبح الخارجي.
+استغربت! مين صاحي هالوقت؟
+مشيت بشويش بالظلام، طليت من ورا ستارة الصالة الكبيرة اللي تطل على المسبح..
+وشفت المنظر اللي خلاني أتمنى إني مت ولا شفته.
+أختي.. من لحمي ودمي، جالسة على الكراسي مع زوجي!! وزوجي بيده ظرف طبي رسمي!
+فتحت شباك الصالة سحبة بسيطة بس عشان أسمع وش يقولون..
+ويا ليتني انعميت وانصميت ولا سمعت!
+طلعت جوالي، وشغلت التسجيل الصوتي ويدي ترجف.. والمكيدة اللي سمعتهم يخططون يسوونها فيني بكرة الصبح قدام العايلة.. خلت الدم يتجمد بعروقي كأني جثة...الكلمات اللي كانت تطلع من فمهم خلتني أوقف مكاني مشلولة.. ما أقدر أتحرك، ولا أتنفس.
+أختي الوحيدة.. وزوجي أبو عيالي، جالسين يتآمرون علي تآمر شياطين!
+زوجي كان ماسك الظرف الطبي، ومده لأختي وهو يضحك ضحكة خبيثة ما عمري شفتها بوجهه.
+قال لها بصوت واطي: "التقرير صار جاهز ومختوم من عيادة الطب النفسي، الدكتور ضبطناه وأخذ حسابه كامل وما راح يفتح فمه."
+أختي سحبت الظرف بلهفة، فتحت الورقة، وقرأتها بتركيز.. وابتسمت ابتسامة شيطانية رعبتني.
+قالت له وهي تضحك: "ممتااااز! كاتبين إنها تعاني من (فصام ذهاني حاد) وهلاوس، وإنها غير قادرة على إدارة أموالها وتشكل خطر على نفسها وعلى اللي حولها!"
+حطيت يدي الثنتين على فمي عشان ما أشهق وأفضح نفسي.
+فصام ذهاني؟؟ أنا؟؟
+أنا اللي ماسكة شركات أبوي من يوم طاح مريض؟ أنا اللي أراجع حساباتهم وأرتب حياتهم وأصرف عليهم؟؟
+كمل زوجي كلامه وهو ياخذ رشفة من قهوته وقال:
+"بكرة الصبح على الفطور، بنحط لها الحبوب اللي عطاني إياها الدكتور في كاس العصير حقها."
+"الحبوب هذي مفعولها فوري، بتخليها تهلوس، وتصارخ، وتفقد أعصابها وتكسر الدنيا قدام خوالك وعمامك اللي معزومين بالشاليه!"
+"وإذا انهارت وصارت تبكي وتصارخ قدامهم، بنطلع التقرير الطبي حق الدكتور، ونتصل على الإسعاف النفسي يربطونها ويأخذونها غصب قدام شهود عيان."
+أختي كملت خطتهم وهي تصفق بيدها من الوناسة:
+"وبعد ما تتنوم بالمستشفى، بصفتي أختها الوحيدة وإنت زوجها وولي أمرها، بنرفع قضية (حجر) عليها بالمحكمة."
+"نستلم إدارة أملاكها، ونبيع العقارات، ونسيل المحافظ، ونتقاسم الملايين بالنص.. وهي تقعد تبلع حبوب المجانين في المصحة لين تموت ونرتاح منها."
+رجعت لورا خطوتين.. طحت على أقرب كنب بالصالة.
+راسي صار يلف ويدور كأني في غسالة.
+يخططون يجننوني!! يخططون يدخلوني مستشفى شهار!!
+عشان الفلوس! عشان الورث!
+أختي اللي كنت أمشط شعرها وهي صغيرة! أختي اللي تكفلت بزواجها من الألف للياء من جيبي عشان ما تنكسر قدام الناس!
+وزوجي.. آااه يا زوجي! اللي شلته من ديونه، وسددت قروضه، وفتحت له معرض سيارات من مالي الخاص عشان أرفع راسه بالمجالس!
+يتفقون علي؟ يبيعوني بحفنة ملايين؟
+يبون يحجرون علي ويخلوني مجنونة رسمياً بالدولة!!
+طالعت بجوالي.. التسجيل الصوتي شغال، وكل حرف انقال مسجل بوضوح تام، حتى ضحكاتهم الخبيثة مسجلة.
+قفلت التسجيل وحفظته.
+يدي كانت ترجف وتنتفض لدرجة إني مو قادرة أكتب رسالة أو أدق على أحد.
+فكرت بثانية إني أفتح الباب وأطلع أواجههم بالتسجيل!
+بس انتبهت لمصيبة أكبر.. الشاليه مقطوع! في أطراف الرياض!
+وإحنا لحالنا الحين ما معنا أحد، لأن باقي العايلة بيجون بكرة الصبح!
+لو طلعت وواجهتهم، وش بيصير؟
+ممكن يذبحوني! ممكن يغرقوني بالمسبح ويقولون زلقت وطاحت وماتت!
+هذي ناس باعت ذمتها وضميرها عشان الملايين، اللي يخطط يجنن أخته، ما راح يردعه إنه يقتلها.
+قمت من مكاني، زحفت زحف على ركبي لين وصلت لغرفتي.
+فتحت دولاب الغرفة.. </div>
+
+     <div class="s-blurred"> بالظلام بدون ما أولع النور.
+سحبت عبايتي ولبستها فوق بجامتي وأنا أنتفض من البرد والرعب.
+أخذت بوكي، مفتاح سيارتي، وجوالي. ما أخذت ولا قطعة ملابس ثانية.
+الغرفة حقتي كان فيها ميزة إن بابها يفتح على الحوش الخلفي للشاليه، بعيد عن المسبح اللي هم جالسين يسهرون فيه.
+فتحت الباب الخلفي شوي شوي.. ما فيه أي صوت إلا صوت الهوا.
+طلعت، وتسللت زي الحرامية في المكان اللي أنا دافعة إيجاره من حلالي.
+أمشي على أطراف أصابعي فوق العشب عشان ما يطلع ولا همسة.
+أنفاسي كانت سريعة، كل ما أسمع صوت ورقة شجر ألتفت أحسبهم كشفوني.
+وصلت لمواقف الشاليه برا.
+سيارتي كانت بعيدة ومخفية شوي بالظلام.
+ركبت السيارة.. ويدي ترجف وهي تدق السلف.
+ما شغلت الأنوار الأمامية أبداً عشان ما ينتبهون.
+دعست بنزين وطلعت من البوابة الترابية بسرعة جنونية كأني أهرب من الموت.
+يوم بعدت عن الشاليه وصليت للشارع العام، ولعت النوار.. وبديت أتنفس.
+وبديت أبكي..
+أبكي قهر، أبكي غبنة، أبكي انكسار، أبكي على أبوي اللي راح وترك لي ذيابة تنهش في لحمي.
+أنا الحين في الطريق راجعة للرياض.
+الساعة ٥ الفجر.... وصلت الرياض الساعة ٦ الصبح.. بس بدل ما أروح بيتي وأقفل على نفسي وأبكي زي الضعيفة، رحت شقتي الخاصة اللي محد يعرفها.
+أخذت شاور بارد يصحصح كل عرق فيني.. فتحت دولابي، وطلعت أفخم عباية عندي، ولبست ساعتي الألماس، وتعطرت بعطر أبوي الله يرحمه.
+أنا بنت التاجر.. أنا اللي أدير الملايين.. مستحيل أخليهم يكسروني أو يمشون خطتهم علي.
+اتصلت على المحامي (أبو محمد)، أرسلت له التسجيل، وقلت له:
+"أرفع البلاغ الحين، وخل الشرطة تتوجه للشاليه الساعة ٩ ونص الصبح بالضبط.. أبي أسبقهم بنص ساعة، عندي تصفية حسابات."
+
+الساعة ٩ الصبح بالضبط..
+وقفت سيارتي برا الشاليه.
+السيارات كلها كانت موجودة.. سيارات عمامي، خوالي، حريمهم، وعيالهم. العايلة كلها مجتمعة على الفطور في الحديقة الخارجية حقت الشاليه.
+مشيت بخطوات ثقيلة، الكعب حقي يضرب بالرخام وكل ضربة تعلن عن مصيبة بتطيح على روسهم.
+دخلت الحديقة.. كان المنظر كالتالي:
+سفرة فطور طويلة عريضة، عمامي يضحكون، وخوالي يسولفون..
+وزوجي (سندي الكذاب) جالس بصدر المجلس يصب القهوة لعمي الكبير ويمثل دور السنع.
+وأختي؟ كانت واقفة عند طاولة العصيرات، وبيدها كاس عصير برتقال، وتطالع في باب الممرات، تنتظر "المجنونة" تصحى وتطلع عشان تعطيها الكاس المسموم!
+
+أول ما خطيت خطوة وطلعت قدامهم.. الكل سكت.
+أختي انخطف لونها! الكاس بغى يطيح من يدها.
+زوجي وقف على حيله وعيونه بتطلع من مكانها، لأنهم شافوا رسالتي اللي بالروج على المراية وكانوا مرعوبين ومو عارفين أنا وين!
+عمي الكبير ابتسم وقال: "هلا بنتي سارة، تو ما نور الشاليه، تعالي افطري."
+ابتسمت ببرود يذبح، مشيت بثقة لين وقفت بنص السفرة، عيني بعين أختي.
+قلت بصوت عالي وواضح: "النور نوركم يا عمي.. بس تصدق؟ توني قاعدة من النوم وعطشانة.. حصة، عطيني كاس العصير اللي بيدك."
+أختي وجهها صار أبيض زي الورق، شفايفها ترجف: "هاه؟ لا.. هذا العصير حار.. بصب لك واحد بارد من الثلاجة."
+قربت منها، سحبت الكاس من يدها بالقوة وقلت: "لا، أبي هذا.. تصدقين شكله يشهي.. بس تدرين؟ أنا أختك الكبيرة، وأنتي أولى مني.. اشربيه أنتي."
+مديت الكاس لفمها.
+رجعت لورا مرعوبة وهي تدف يدي: "لا ما أبيه! سارة وش فيك؟ ماني مشتهية!"
+زوجي تدخل بسرعة، جا يركض ومسك ذراعي وقال وهو يضحك بتوتر قدام العايلة: "سارة حبيبتي وش فيك مكبرة الموضوع؟ خلاص ما تبي تشرب تعالي اجلسي."
+سحبت ذراعي منه بقوة لدرجة إني طيرت يده، وصرخت بأعلى صوتي:
+"لا تلمسسسني يا خاين!! ولا تفتح فمك بحرف واحد!!"
+
+الكل وقف!! عمامي فزوا، خوالي انصدموا، الحريم شهقوا.
+عمي الكبير عقد حواجبه وجا يمشي: "سارة! وش هالكلام؟ عيب هذا زوجك، وش قاعد يصير هنا؟"
+طالعت في عمي، ودموع القهر بدت تتجمع بعيني بس ما طاحت:
+"هذا مو زوجي.. هذا ثعبان ربيته بفلوسي، وهذي مو أختي، هذي عقرب تنتظرني أنام عشان تلدغني!"
+أختي بدأت تمثل وتبكي وتصارخ وتطالع في عمامي: "شفتوا!! شفتوا!! سارة مو طبيعية! سارة فقدت عقلها من يوم مات أبوي! جالسة تتوهم أشياء وتصارخ علينا بدون سبب!"
+زوجي كمل المسرحية وحط يده على راسه وقال بحزن مصطنع: "يا عمي أنا كنت مخبي عليكم.. بس سارة تعبانة نفسياً، وأنا جبت لها تقرير طبي يثبت إنها تعاني من هلاوس ولازم تتنوم بالمستشفى.. وهذا العصير فيه علاجها كانت لازم تشربه بس هي ترفض الدواء!"
+يااااه على الوقاحة! قدام عيني يرقعون الخطة؟!
+عمامي طالعوني بصدمة، وبعضهم بدت ملامحه تلين وتصدق إن فيني مرض نفسي.
+
+ابتسمت.. ابتسامة وحدة مجنونة فعلاً.
+طلعت جوالي من شنطتي.
+كان فيه سماعة بلوتوث كبيرة حقت الشاليه محطوطة على الطاولة.
+شبكت جوالي بالسماعة.. ورفعت الصوت لأعلى شي.
+قلت لهم: "آها.. أنا مجنونة وعندي هلاوس؟ طيب اسمعوا هلاوسي وش تقول."
+ضغطت (Play) على التسجيل الصوتي اللي سجلته الساعة ٤ الفجر.
+الصوت طلع مجلجل في الحديقة..
+صوت زوجي وهو يقول: (التقرير جاهز ومختوم.. الدكتور ضبطناه وأخذ حسابه).
+صوت أختي وهي تضحك: (ممتاز! كاتبين إنها تعاني من فصام ذهاني.. غير قادرة على إدارة أموالها!).
+التسجيل يكمل.. وهم يشرحون كيف بيحطون لي الحبوب بالعصير، وكيف بيحجرون علي، وكيف بيتقاسمون الملايين ويخلوني أموت بمستشفى المجانين!!
+
+ورب الكعبة.. لو تشوفون وجيههم!!
+زوجي صار يطالع يمين ويسار يدور مفر، أختي طاحت على ركبها بالأرض وحطت يدها على راسها وتصارخ: "لاااا! كذب كذب هذا مو صوتي!!"
+عمامي.. الدخان صار يطلع من روسهم.
+عمي الكبير (أخو أبوي) وجهه صار أحمررر، عروق رقبته نطت.
+تقدم بخطوات سريعة لزوجي.. وبدون أي مقدمات..
+طاااااخ!!
+عطاه كف.. كف سمعت صوته بأذني، كف طير زوجي وخلت شماغه يطيح بالأرض.
+ومسكه عمي من ياقته ورفعه وهو يصارخ بوجهه: "يا كلب!! يا ولد الـ... تتآمرون على بنت أخوي بوجهي؟؟ تبون تحجرون على لحمنا ودمنا عشان فلوس؟؟"
+خوالي هجموا على زوجي، مسكوه وسطروه تسطير، مسحوا بكرامته البلاط قدام الحريم اللي كانوا يصارخون من الفجعة.
+وأختي؟
+خالتي الكبيرة سحبتها من شعرها وهي بالأرض وتدعي عليها: "يا حسافة تربية أبوك فيك! تبيعين أختك وتجننينها يا مريضة يا عديمة الشرف؟!"
+
+وأنا؟
+أنا كنت واقفة بنص هالمعمعة.. أطالعهم وأحس إن نار قلبي بدت تبرد.
+ووسط هالصراخ والضرب..
+سمعنا صوت سرينات الشرطة برا الشاليه.
+دخلوا ٤ عساكر ومعهم ضابط المباحث.
+الضابط صرخ: "وقووووف!! كل واحد مكانه!"
+الكل سكت وابتعد عن زوجي اللي كان منسدح بالأرض وخشمه ينزف.
+الضابط طالع فينا وقال: "عندنا أمر قبض من النيابة العامة بتهمة التزوير والتآمر والشروع في إيذاء وإفقاد أهلية.. وين فلان (اسم زوجي) وفلانة (اسم أختي)؟"
+عمي الكبير أشر عليهم وقال للضابط: "خذهم.. هذي مو بنتنا ولا نعرفها، وهذا خاين للأمانة، خذهم ولا ترحمونهم."
+العساكر كلبشوا زوجي وهو يبكي زي الطفل ويترجى عمي: "يا عمي تكفى الفضيحة! سارة سامحيني الشيطان لعب علي!"
+وأختي تسحب بالكلبشات وتطالعني وتشهق: "سارة تكفين أنا أختك! أنا من ريحة أبوي تكفين لا تسجنيني!"
+
+وقفت قدامها بالضبط.
+طالعت في عيونها المليانة رعب ومذلة.
+وقلت لها بصوت هادي يسمعه الكل:
+"ريحة أبوي ماتت يوم اتفقتي مع غريب عشان تجننين بنته وتسرقين ماله.. أنتي الحين بالنسبة لي.. ميتة."
+طالعت بالضابط وقلت: "خذوهم، والتسجيل الصوتي والتقرير المزور بالمستشفى كلها مرسلة للنيابة مع المحامي."
+انسحبوا قدامي مكلبشين.. انرموا في دوريات الشرطة.. وراحوا.
+الحديقة رجع لها الهدوء.
+عمي الكبير قرب مني، ضمني لصدره، وبكى. بكى على قهر الرجال وبكى على اللي صار فيني.
+قال لي: "انتي بنت أبوك.. أنتي العاقلة وحنا سندك، واللي يمس شعرة منك نقص رقبته."
+ابتسمت وأنا أمسح دموعي اللي أخيراً نزلت.. بس هذي المرة مو دموع قهر، هذي دموع النصر.
+
+اليوم هم بالسجن، ينتظرون أحكام بالسنين.
+وزوجي توصله ورقة خلعه وهو ورا الشبك.
+وأنا؟ أنا سارة، صاحبة الشركات، والعقل المدبر، واللي مفكرة نفسها ذكية وتبي تعض اليد اللي انمدت لها.. خليتها تعض أصابع الندم طول عمرها.
+وانتهت القصة.  .</div>
+        </div>
+ <div class="story-data" id="story-5">
+
+            <div class="s-title">قصة بروفة الفستان" (المكيدة الشيطانية)</div>
+
+            <div class="s-summary">زواجي بعد ٣ أيام، وفستاني عند الخياط يحط له اللمسات الأخيرة. اليوم العصر طقت براسي أروح للمشغل بدون موعد أطمن عليه...</div>
+
+            
+
+            <div class="s-clear"> يا بنات.. تخيلوا تدفعين 6 آلاف ريال سعودي على فستان ليلة العمر، وتكتشفين بالصدفة إن أقرب الناس لك تبي تخليه "كفن" يحرق لحمك!
+زواجي بعد ٣ أيام، وفستاني عند الخياط يحط له اللمسات الأخيرة. اليوم العصر طقت براسي أروح للمشغل بدون موعد أطمن عليه.
+أول ما دخلت من الباب، سمعت الخياط يتهاوش مع حرمة . الحرمة تدفه، وتعطيه رزمة فلوس كاش، وتصرخ عليه.
+كانت ماسكة علبة فيها "بودرة بيضاء".. وتجبره يفرك هذي البودرة ببطانة الفستان حقي! وتحديداً من جهة الصدر والظهر!
+الحرمة لفت وجهها يوم حست بوجودي،  ..
+الصدمة اللي خلتني أتجمد مكاني وما أقدر أتنفس.. الحرمة ما كانت طليقة زوجي، ولا حبيبته السابقة..
+الحرمة طلعت.. أختي!
+أختي الكبيرة، حصة!!
+
+قبل لا أكمل لكم وش صار بهاللحظة المرعبة بنص المشغل..
+لازم أرجعكم ورا شوي، عشان تستوعبون حجم المصيبة وتعيشون الغبنة اللي أنا عشتها.
+أنا ترتيبي آخر العنقود، دلوعة البيت، والفرق بيني وبين أختي حصة ٥ سنين.
+حصة ما كانت مجرد أخت.. كانت بمثابة أمي الثانية.
+طول عمري أشوفها السند، الحنونة، اللي تداريني وتخاف علي من الهوى الطاير.
+ولما انخطبت لـ "فهد".. حصة كانت أول وحدة زغردت بالبيت.
+فهد عريس لقطة، ولد عايلة، منصب، وفلوس، وأبوي كان طاير من الفرحة بهالنسب.
+طوال الست شهور اللي راحت، حصة كانت هي اللي ماسكة تجهيزات زواجي.
+تنام معاي بنفس الغرفة، تفاصيل القاعة ، الزفة.. كلها كانت من اختيارها وتعبها.
+كانت تبكي وتضمني وتقول لي: "بتفقدين البيت يا عروستنا، ماني متخيلة الغرفة بدونك".
+كنت أشوف دموعها وأحسبها دموع فرح وفراق خوات..
+ما كنت أدري إنها دموع حقد، ونار، وغل يحرق يابسها وخضارها!
+نرجع ليوم الفاجعة.. بالمشغل.
+يوم طاح اللثام عن وجه حصة..
+وقفت مكاني عند الباب، أحس الدم انسحب من كل عرق في جسمي.
+أطرافي صارت ثلج، وعيوني تغبشت.
+الخياط أول ما طاحت عينه علي، شهق من الرعب وفك العلبة.
+طاحت العلبة على رخام المشغل، وتناثرت البودرة البيضاء.
+وبمجرد ما لمست البودرة قطرات المويه اللي كانت طايحة جنب البرادة..
+طلع منها "صوت أزيز" مخيف، ودخان خفيف، وريحة كيميائية تخنق!
+الخياط تراجع لورا وهو يتصبب عرق، يرجف كأنه شايف ملك الموت.
+رفع يدينه يبي يحمي نفسه، وقال والكلام يتقطع بحلقه:
+"مدام! والله أنا ما يبي يسوي كذا!"
+"هذا أختك مجنونة! هي يجي فجأة يعطي أنا عشرين ألف كاش!"
+"يقول أنا لازم يفرك هذا بودرة جوا فستان حق إنتي!"
+"أنا يقول هذا خطر.. يحرق جلد! يسوي مصيبة!"
+"هي يقول مافي مشكلة! فرك زيادة عشان ما يبين وقت اللبس!"
+طالعت في حصة..
+توقعتها بتنهار؟ توقعتها تبكي وتترجاني أستر عليها؟
+توقعتها تبرر وتقول لحظة شيطان؟
+لا والله!
+وجهها كان أصفر كأنه كركم، بس عيونها؟
+عيونها كانت تبرق بحقد أسود، غل وكراهية ما شفتها في عيون ألد أعدائي!
+نزلت للأرض وأنا أرجف كأني سعف نخل.. أخذت العلبة.
+قريت الاسم المكتوب عليها بالانجليزي، وتحته تحذير باللون الأحمر العريض:
+"(تحذير شديد: مركب كيميائي صناعي حارق. يسبب حروق جلدية من الدرجة الثانية والثالثة، وذوبان للأنسجة بمجرد ملامسته للتعرق أو الرطوبة العالية)".
+حسيت كأن أحد صاب على راسي رصاص مذاب.
+حروق؟؟ ذوبان للجلد؟؟
+في بطانة فستاني الأبيض؟؟ الفستان اللي تعبت وهي تختار قماشه معاي؟؟
+تخيلتوا الكابوس اللي كانت ترسمه لي بدم بارد وتخطيط شهور؟
+ألبس الفستان يوم زواجي..
+وأدخل القاعة أمشي على الزفة والكل يطالعني..
+ومع حرارة الإضاءة القوية، والتوتر، والعرق اللي طبيعي يجي أي عروس..
+البودرة تتفاعل كيميائياً!
+وتبدأ تحرق ظهري وصدري وأنا بنص الكوشة!
+أصير أصارخ من الألم، والنار تاكل لحمي قدام المعازيم وعريسي!
+جلدي يذوب ويلصق ببطانة الفستان الأبيض!
+وأنتقل من ليلة عمري للعناية المركزة، مشوهة لآخر يوم بعمري!
+رفعت راسي وصرخت بصوت هد جدران المشغل، صرخة طلعت من أقصى روحي:
+"ليش؟؟؟"
+"يا مجرمة تبين تحرقيني؟؟ أنا أختك!! لحمك ودمك!"
+"أنا اللي تنامين معاي وتضميني كل ليل؟؟"
+"متى أذيتك؟ وش سويت لك عشان تحقدين علي كذا وتخططين تنهين حياتي؟!"
+حصة وقفت.. مسحت عرقها، وبدأت تضحك.
+ضحكة هستيرية مريضة ترعب، ضحكة إنسانة فاقدة لعقلها وإنسانيتها.
+قالت لي وهي تقرب مني وتتف الكلمات بوجهي تفل:
+"وش سويتي؟"
+"إنتي انولدتي عشان تاخذين كل شيء بالهالبيت!"
+"الدلع لك، الاهتمام لك، السفر لك، الجمال لك.."
+"والحين.. تاخذين فهد؟؟"
+فهد؟؟ عريسي فهد؟
+وش دخل فهد بالموضوع؟ هذي أول مرة أشوفه يوم خطبتي!
+كملت صراخها والدموع المتجمدة بعيونها بتنفجر:
+"فهد كان خطيبي أنا يا غبية!!"
+"قبل ٦ سنين! يوم كنتي إنتي تلعبين ومراهقة ما تدرين عن الدنيا!"
+"فهد كان لي أنا! لبسني الدبلة، وكنت بصير زوجته، وحددنا الملكة!"
+"لين أبوي وأبوه تهاوشوا على الفلوس وشروط تافهة في العقد.."
+"والغو الخطبة! كسروا ظهري ونفسيتي وخلوني علك بحلوق الناس!"
+"ويوم دارت الأيام ورجع يخطب من عايلتنا يبون يلمون الشمل.."
+"ما طلبني أنا! ما قال حصة كبرت وأبيها!"
+"اختارك إنتي يا الصغيرة يا الدلوعة!"
+"وأبوي؟؟ أبوي اللي كسر قلبي زمان وضيعني، وافق فوراً!"
+"وأمي زغردت ووزعت حلاوة ونسفوا الماضي!"
+"ولا كأن حصة العانس المكسورة موجودة بالبيت وتسمع زغاريدكم وهي تموت قهر بغرفتها!"
+انشليت.. حرفياً انشليت.
+فهد خطب أختي قبل ٦ سنين؟!
+وأهلي؟؟ أهلي عمرهم ما جابوا طاري هالموضوع قدامي نهائياً!
+أهلي زوجوني إياه وهم يدرون إنه كان خاطب أختي الكبيرة، واللي نامت معاه بنفس القصة والتجهيزات؟!
+خبوا علي عشان ما أرفض وتفوتني "الفرصة الذهبية"؟
+خلو الحقد ياكل قلب أختي، ويحرقها كل ليلة وهي تشوفني أجهز لنفس العريس..
+لين صارت وحش بشري يبي يذيب لحمي عشان ترتاح؟!
+أشرت حصة على الفستان وقالت بابتسامة مختلة ومخيفة:
+"إي نعم كنت بحرقك! ما أنكر ولا أندم!"
+"كنت أبيك تصارخين وتتشوهين ليلة دخلتك!"
+"كنت أبي فهد يشوفك محروقة، ويلتاع منك ويقرف، ويطلقك!"
+"عشان تذوقين ربع القهر والذل اللي ذقته لما شفتكم تلبسون الدبل وتضحكون!"
+الخياط مسك جواله وقال برعب وهو متخبي ورا الطاولة: "أنا يكلم شرطة يجي الحين!"
+سحبت الجوال من يده بقوة وقلت له بصوت ميت، بارد، ما فيه ذرة مشاعر:
+"لا تكلم أحد. حسابها مو عندك ولا بالشرطة."
+سحبت الفستان حقي أبو 6 ألف من الطاولة.. الفستان اللي كان بيصير كفني المسموم.
+وأخذت علبة البودرة، وطلعت من المشغل.
+حصة كانت تصرخ وراي بالشارع زي المجنونة والناس تطالع:
+"والله لأخرب زواجك لو وش يصير! ما تتهنين فيه يا سارة!"
+ركبت سيارتي، رميت الفستان ورا.
+جلست على الدركسون أتنفس بسرعة، أحس قلبي بيطلع من ضلوعي.
+خيانة مزدوجة طاحت على راسي كأنها جبل.
+ما بكيت.. ولا نزلت دمعة. دموعي نشفت من هول الصدمة وغباء الموقف.
+مسكت جوالي ودقيت على فهد.
+رد علي بصوت رايق وفرحان: "هلا بعروستي، ها خلصتي مقاسات؟"
+قلت له بصوت حاد كأنه سيف يقص المسمار:
+
+ </div>
+
+     <div class="s-blurred"> "قابلني الحين في كافيه (....) اللي على طريق الملك."
+"نص ساعة.. وإذا ما لقيتك جالس هناك، اعتبر الزواج ملغي ولا عاد تتصل."
+قفلت بوجهه بدون ما أسمع رده.
+حركت السيارة ووصلت الكافيه.
+دخلت ولقيته جالس ينتظرني، وجهه مخطوف وخايف من نبرة صوتي.
+جلست قدامه، ما سلمت.
+حطيت علبة "البودرة الكيميائية" على الطاولة بيني وبينه.
+طالع فيها باستغراب، وبعدين طالع فيني وقال:
+"وش هذا يا سارة؟ وش صاير وجهك ما يتفسر كأنك شايفة جني؟"
+طالعته بعيون مليانة قرف واشمئزاز وقلت:
+"هذي هديتك لي.. وهدية خطيبتك السابقة."
+تغيرت ملامحه فجأة! لونه صار رمادي، بلع ريقه بصعوبة، وعيونه بدأت تتهرب مني.
+قلت له وأنا أضغط على كل حرف كأني أضربه كف:
+"حصة يا فهد.. حصة اللي خطبتها قبل ٦ سنين.."
+"واللي أهلي باعوها ومسحوها من الوجود عشان يزوجونك إياي.."
+"اليوم كانت بتفرك هذي البودرة الكيميائية بفستاني عشان تذوب لحمي بليلة دخلتنا."
+حاول يتكلم، حاول يرقع ويرجف:
+"سارة.. سارة تكفين افهمي! أنا والله ما كان لي نية أخبي!"
+"أبوك اللي طلب مني نكتم السالفة نهائياً عشان ما تتأثرين وترفضين!"
+"أنا شاريكم وأبي أكمل نص ديني، والموضوع قديم مات وانتهى!"
+قاطعته بضحكة سخرية وضربت الطاولة بيدي لدرجة القهاوي اهتزت:
+"تكمل نص دينك على حساب أختي المريضة اللي انكسر قلبها؟"
+"تتفق مع أبوي تبنون سعادتكم وتناسبون بعض على أنقاض إنسانة عايشة معنا بنفس البيت؟"
+"تلعبون بمشاعرنا كأننا قطع شطرنج؟ أنتم وش من بشر؟!"
+فصخت دبلة الألماس اللي بيدي.. الدبلة اللي كانت حلم كل بنت تتمناه.
+ورميتها جوا كاسة القهوة حقت فهد!
+وقفت وقمة القوة تتملكني، وما همني من يطالعنا بالكافيه وقلت له:
+"أنا ما أبني حياتي على بيت أساسه خيانة، وكذب، وحقد يوصل للقتل."
+"الزواج مارح يتم يا فهد.. الدبلة غرقانة بقهوتك، والشبكة بتوصلك بكرا مع السواق."
+"وعساني ما عاد أشوف رقعة وجهك ولا وجه أبوك."
+خليته جالس مصدوم يحاول يستوعب، والناس تطالع فيه، وطلعت.
+بس المواجهة الكبيرة ما خلصت.. الحرب الحقيقية كانت تنتظرني بالبيت.
+ركبت سيارتي وتوجهت لبيت أهلي.
+دخلت الصالة.. كان أبوي وأمي جالسين يشربون شاهي، يضحكون ويسولفون عن ترتيبات العشاء.
+وحصة كانت توها واصلة، جالسة بعيد بالزاوية ترتجف وتطالعني بخوف أول ما دخلت.
+سحبت الفستان الأبيض من الكيس، ورميته بنص الصالة.
+أبوي فز من مكانه مرعوب: "بسم الله الرحمن الرحيم! وش فيك يا بنت ترمين الفستان كذا؟ انهبلتي؟"
+طلعت العلبة الكيميائية ورميتها فوق الفستان.
+قلت لهم بصوت عالي، ثابت، يرج البيت رج:
+"تدرون وش هذا اللي يطالعون فيه؟"
+"هذي المادة اللي بنتكم العاقلة الكبيرة، كانت بتذوب فيها صدري وظهري بليلة عرسي!"
+أمي شهقت شهقة قطعت قلبها، وحطت يدها على فمها، وأبوي طالع بحصة بصدمة كأنه انضرب على راسه.
+كملت كلامي وأنا أأشر عليهم كلهم، ودموع القهر أخيراً نزلت بس بحرقة:
+"أبشركم.. فهد أنهيت زواجي منه قبل شوي ورميت دبلته بوجهه."
+أبوي صرخ ووجهه صار أحمر:
+"أنتي مجنونة؟؟ تفضحيننا قدام الرجال والناس وقبايل؟ القاعة محجوزة والمعازيم معزومين ومجهزين كل شي!"
+رديت عليه وأنا أقرب منه ولا رمشت لي عين، وراسي مرفوع:
+"الفضيحة اللي خفت عليها يا أبوي.. إنت اللي أسستها وبنيتها بيدك!"
+"يوم خطب فهد حصة زمان ورفضته على تفاهات، ورجعت بعد سنين توافق يخطبني أنا وتكذبون علي وتستغفلوني!"
+"صنعتوا من أختي وحش كاسر يبي يقتلني ويحرقني بس عشان ترضون غروركم وتزوجون بناتكم لأي واحد غني وتنسبون هالرجال!"
+"خليتوها تنام معاي وتجهز عرسي لعريسها القديم؟ أنتم ما تخافون الله؟"
+أمي طاحت على ركبتها تبكي وتترجاني أهدي وأتعوذ من إبليس، وحصة منهارة بالبكي بالزاوية وتصارخ.
+قلت لهم جملتي الأخيرة وأنا ألف ظهري متجهة لغرفتي:
+"أنا طالعة من هالبيت اللي كله كذب ونفاق."
+"باخذ أغراضي، وراتبي يكفيني، وورثي من جدي بيعزني."
+"اقعدوا فيها أنتم وحقدكم وأسراركم المقرفة اللي دمرت عايلتنا."
+"ولا أحد، لا أحد منكم يحاول يتواصل معاي أو يدورني.."
+"لأن المرة الجاية، الباب اللي بيني وبينكم بيكون باب المحكمة."
+دخلت غرفتي، قفلت الباب، لميت شنطتي، وطلعت من البيت بكرامتي، وحياتي، وجلدي اللي أنقذته بلحظة القدر.
+
+يا بنات.. العبرة والدرس مو بس إنكم تحذرون من الغريب.
+احذروا من القريب اللي قلبه مريض!
+والأهم.. رسالة لكل أب وأم يسمعني:
+اعدلوا بين عيالكم! لا تبنون سعادة واحد على قهر وكسرة قلب الثاني!
+لا تكذبون وتخبون أسرار تدمر العوايل عشان مظاهر كذابة!
+لأن الحقد إذا كبر بالبيوت.. ياكل الأخضر واليابس، وممكن يخلي الأخت تفكر تذوب لحم أختها.  .</div>
+       
+        </div>
+
     </div>
+
+    <div class="overlay" id="overlay"></div>
 
     <div class="side-menu" id="sideMenu">
         <div class="menu-header">
             <div class="brand-logo" style="margin:0;">
                 <span class="material-symbols-rounded">cloud</span>
-                <span>CebianBox</span>
+                <span>LarissaStory</span>
             </div>
         </div>
-        <div class="menu-item" onclick="switchTab('recent', this); toggleMenu();"><span class="material-symbols-rounded">schedule</span> الأخيرة</div>
-        <div class="menu-item" onclick="switchTab('trash', this); toggleMenu();"><span class="material-symbols-rounded">delete</span> المهملات</div>
+        <div class="menu-item" onclick="switchTab('home', this); toggleMenu();"><span class="material-symbols-rounded">menu_book</span> المكتبة</div>
+        <div class="menu-item" onclick="switchTab('starred', this); toggleMenu();"><span class="material-symbols-rounded">star</span> المفضلة</div>
         <div class="menu-item" onclick="switchTab('settings', this); toggleMenu();"><span class="material-symbols-rounded">settings</span> الإعدادات</div>
-        <div class="menu-item" onclick="switchTab('help', this); toggleMenu();"><span class="material-symbols-rounded">help</span> المساعدة</div>
     </div>
 
     <div class="header">
         <span class="material-symbols-rounded menu-icon" id="menuBtn">menu</span>
         <div class="brand-logo">
             <span class="material-symbols-rounded">cloud</span>
-            <span>CebianBox</span>
+            <span>LarissaStory</span>
         </div>
     </div>
 
     <div class="pages-container">
         <div class="page active" id="page-home">
-            <div class="section-title">تمت مشاركتها معك مؤخراً</div>
+            <div class="section-title">القصص الشائعة الآن</div>
             
-            <div class="clickable-card" onclick="startFakeLoading()">
-                <div class="file-info-wrapper">
-                    <span class="material-symbols-rounded file-icon-large">play_circle</span>
-                    <div class="file-details">
-                        <h3>سلسلة_الشرح_طريقة_التيكتوك.mp4</h3>
-                        <p>فيديو • 350 MB • <span class="material-symbols-rounded">verified_user</span> آمن</p>
-                    </div>
+            <div class="story-list" id="storyListContainer">
                 </div>
-            </div>
-
-            <div class="action-button" onclick="startFakeLoading()">
-                <span class="material-symbols-rounded">play_arrow</span>
-                فتح وتشغيل الفيديوهات الآن
-            </div>
         </div>
 
         <div class="page" id="page-starred">
-            <div class="empty-state"><span class="material-symbols-rounded">star</span><h2>لا توجد عناصر مميزة</h2><p>الملفات التي تميزها بنجمة ستظهر هنا.</p></div>
+            <div class="empty-state"><span class="material-symbols-rounded">star</span><h2>لا توجد عناصر مميزة</h2><p>القصص التي تميزها بنجمة ستظهر هنا.</p></div>
         </div>
         <div class="page" id="page-shared">
-            <div class="empty-state"><span class="material-symbols-rounded">group</span><h2>لم تتم مشاركة شيء</h2><p>الملفات التي يشاركها الآخرون معك تظهر هنا.</p></div>
+            <div class="empty-state"><span class="material-symbols-rounded">group</span><h2>المجتمع</h2><p>انضم للمجتمع لمشاركة القصص.</p></div>
         </div>
         <div class="page" id="page-files">
-            <div class="empty-state"><span class="material-symbols-rounded">folder_open</span><h2>مساحتك فارغة حالياً</h2><p>لا توجد ملفات مرفوعة في مساحتك.</p></div>
-        </div>
-        <div class="page" id="page-recent">
-            <div class="empty-state"><span class="material-symbols-rounded">schedule</span><h2>لا توجد ملفات أخيرة</h2><p>لم تقم بفتح أو تعديل أي ملفات مؤخراً.</p></div>
-        </div>
-        <div class="page" id="page-trash">
-            <div class="empty-state"><span class="material-symbols-rounded">delete</span><h2>سلة المهملات فارغة</h2><p>العناصر التي تحذفها ستظل هنا لمدة 30 يوماً.</p></div>
+            <div class="empty-state"><span class="material-symbols-rounded">folder_open</span><h2>مسوداتك</h2><p>اكتب قصصك الخاصة هنا.</p></div>
         </div>
         <div class="page" id="page-settings">
-            <div class="empty-state"><span class="material-symbols-rounded">settings</span><h2>الإعدادات</h2><p>يرجى تسجيل الدخول للوصول إلى الإعدادات.</p></div>
-        </div>
-        <div class="page" id="page-help">
-            <div class="empty-state"><span class="material-symbols-rounded">help</span><h2>مركز المساعدة</h2><p>يرجى تسجيل الدخول أولاً.</p></div>
+            <div class="empty-state"><span class="material-symbols-rounded">settings</span><h2>الإعدادات</h2><p>يرجى تسجيل الدخول للوصول للإعدادات.</p></div>
         </div>
     </div>
 
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('home', this)"><span class="material-symbols-rounded">home</span><span>الرئيسية</span></div>
-        <div class="nav-item" onclick="switchTab('starred', this)"><span class="material-symbols-rounded">star</span><span>المميزة</span></div>
-        <div class="nav-item" onclick="switchTab('shared', this)"><span class="material-symbols-rounded">group</span><span>المشتركة</span></div>
-        <div class="nav-item" onclick="switchTab('files', this)"><span class="material-symbols-rounded">folder</span><span>ملفاتي</span></div>
+        <div class="nav-item" onclick="switchTab('starred', this)"><span class="material-symbols-rounded">star</span><span>المفضلة</span></div>
+        <div class="nav-item" onclick="switchTab('shared', this)"><span class="material-symbols-rounded">forum</span><span>المجتمع</span></div>
+        <div class="nav-item" onclick="switchTab('files', this)"><span class="material-symbols-rounded">edit_document</span><span>كتابة</span></div>
+    </div>
+
+    <div class="reader-modal" id="readerModal">
+        <div class="reader-header">
+            <span class="reader-title-top">LarissaStory Reader</span>
+            <span class="material-symbols-rounded close-reader" onclick="closeReader()">close</span>
+        </div>
+        
+        <div class="reader-content">
+            <div class="story-title-main" id="readerTitle">Title Here</div>
+            
+            <div id="readerClearText" style="margin-bottom: 10px;"></div>
+
+            <div class="blurred-section-container" id="blurContainer">
+                <div class="blurred-text" id="readerBlurredText"></div>
+
+                <div class="cpa-overlay" id="cpaBox">
+                    <span class="material-symbols-rounded">lock</span>
+                    <h3>المحتوى مقفل</h3>
+                    <p id="cpaDesc">يرجى إكمال عملية تحقق سريعة للتأكد بأنك لست روبوت.</p>
+                    
+                    <a href="https://locked-content.com/?f892a37" target="_blank" class="verify-btn" id="verifyBtn" onclick="startStoryTimer(event)">
+                        <span class="material-symbols-rounded">verified_user</span>
+                        تحقق الآن لمتابعة القراءة
+                    </a>
+
+                    <button class="verify-btn success-btn" id="successBtn" onclick="unlockStory()">
+                        <span class="material-symbols-rounded">lock_open</span>
+                        إكتمل التحقق! اضغط للقراءة
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -539,49 +973,110 @@
             }
         }
 
-        function startFakeLoading() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            const spinner = document.querySelector('.spinner');
-            const loadingText = document.getElementById('loadingText');
-            const verificationCard = document.getElementById('verificationCard');
-            const successCard = document.getElementById('successCard');
+        // سحب القصص من لغة الـ HTML وطباعتها بأمان تام
+        const dbStories = document.querySelectorAll('.story-data');
+        const container = document.getElementById('storyListContainer');
+        
+        dbStories.forEach(story => {
+            const id = story.id;
+            const title = story.querySelector('.s-title').innerHTML;
+            const summary = story.querySelector('.s-summary').innerHTML;
             
-            loadingScreen.style.display = 'flex';
-            spinner.style.display = 'block';
-            loadingText.style.display = 'block';
-            verificationCard.style.display = 'none';
-            successCard.style.display = 'none';
+            const card = document.createElement('div');
+            card.className = 'story-card';
+            card.onclick = () => openReader(id);
+            
+            card.innerHTML = `
+                <div class="material-symbols-rounded story-icon">auto_stories</div>
+                <div class="story-details">
+                    <h3>${title}</h3>
+                    <p>${summary}</p>
+                    <div class="read-btn-mini">قراءة القصة كاملة</div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
 
-            // انتظار 5 ثواني بالضبط
-            setTimeout(() => {
-                spinner.style.display = 'none';
-                loadingText.style.display = 'none';
-                verificationCard.style.display = 'block';
-            }, 5000);
+        const readerModal = document.getElementById('readerModal');
+        let isTimerRunning = false;
+
+        function openReader(storyId) {
+            const story = document.getElementById(storyId);
+            document.getElementById('readerTitle').innerHTML = story.querySelector('.s-title').innerHTML;
+            document.getElementById('readerClearText').innerHTML = story.querySelector('.s-clear').innerHTML;
+            document.getElementById('readerBlurredText').innerHTML = story.querySelector('.s-blurred').innerHTML;
+
+            resetCpaOverlay();
+            readerModal.style.display = 'flex';
         }
 
-        // دالة السحر (العداد المخفي الجبار)
-        let isTimerRunning = false;
-        function startHiddenTimer(event) {
-            if(isTimerRunning) return; // يمنع البنت تضغط مرتين
+        function closeReader() {
+            readerModal.style.display = 'none';
+            isTimerRunning = false; 
+        }
+
+        function resetCpaOverlay() {
+            isTimerRunning = false;
+            const blurText = document.getElementById('readerBlurredText');
+            if(blurText) blurText.style.filter = 'blur(6px)';
+            
+            const cpaBox = document.getElementById('cpaBox');
+            if(cpaBox) {
+                cpaBox.style.display = 'block';
+                const btn = cpaBox.querySelector('.verify-btn:not(.success-btn)');
+                const successBtn = cpaBox.querySelector('.success-btn');
+                const desc = cpaBox.querySelector('p');
+
+                if(btn) {
+                    btn.style.display = 'flex';
+                    btn.style.backgroundColor = 'var(--primary-blue)';
+                    btn.style.pointerEvents = 'auto';
+                    btn.innerHTML = '<span class="material-symbols-rounded">verified_user</span> تحقق الآن لمتابعة القراءة';
+                }
+                if(desc) desc.innerHTML = 'يرجى إكمال عملية تحقق سريعة للتأكد بأنك لست روبوت.';
+                if(successBtn) successBtn.style.display = 'none';
+            }
+        }
+
+        // العداد السري (4 دقايق) مخفي زي ما طلبتي
+        function startStoryTimer(event) {
+            if(isTimerRunning) return; 
             isTimerRunning = true;
 
-            const btn = document.getElementById('verifyBtn');
-            const desc = document.getElementById('verifyDesc');
+            const btn = event.currentTarget;
+            const cpaBox = btn.parentElement;
+            const desc = cpaBox.querySelector('p, .verification-desc');
+            const successBtn = cpaBox.querySelector('.success-btn');
 
-            // 1. نغير شكل الزر عشان تحس إن النظام جالس يفحصها
             btn.innerHTML = '<span class="material-symbols-rounded" style="animation: spin 1s linear infinite;">sync</span> جاري التحقق من النظام...';
-            btn.style.backgroundColor = '#f39c12'; // لون برتقالي حق "انتظار"
-            btn.style.pointerEvents = 'none'; // نعطل الزر عشان ما تنقهر وتضغط
+            btn.style.backgroundColor = '#f39c12'; 
+            btn.style.pointerEvents = 'none'; 
             
-            // 2. نغير النص فوق عشان تطمن وتكمل العرض براحتها
-            desc.innerHTML = 'يرجى إكمال العرض في الصفحة التي فتحت لك. النظام يقوم الآن بالتحقق تلقائياً.<br><br><strong style="color:var(--ios-red); font-size:14px;">لا تغلق هذه الصفحة حتى يكتمل التحقق!</strong>';
+            if(desc) desc.innerHTML = 'يرجى إكمال التحقق البشري في الصفحة الأخرى ثم الرجوع إلى هذه النافذة.  النظام يقوم حالياً بالتأكد من إكمالك لعملية التحقق البشري.<br><br><strong style="color:var(--ios-red); font-size:14px;">التحقق مطلوب لفتح هذا القفل  !</strong>';
 
-            // 3. العداد المخفي: 4 دقائق بالضبط (240,000 ملي ثانية) وبعدها نطلع الفرج
             setTimeout(() => {
-                document.getElementById('verificationCard').style.display = 'none';
-                document.getElementById('successCard').style.display = 'block';
-            }, 240000);
+                if(isTimerRunning) {
+                    btn.style.display = 'none';
+                    if(successBtn) successBtn.style.display = 'flex';
+                    if(desc) desc.innerHTML = 'اكتمل التحقق! يمكنك الآن قراءة باقي القصة.';
+                }
+            }, 240000); 
+        }
+
+        // الدالة السحرية اللي تفتح القصة
+        function unlockStory() {
+            const cpaBoxes = document.querySelectorAll('.cpa-overlay, .verification-card');
+            cpaBoxes.forEach(box => box.style.display = 'none');
+            
+            const blurText = document.getElementById('readerBlurredText');
+            if(blurText) {
+                blurText.style.filter = 'none';
+                blurText.style.opacity = '1';
+                blurText.style.userSelect = 'auto';
+            }
+            
+            const loadingScreen = document.getElementById('loadingScreen');
+            if(loadingScreen) loadingScreen.style.display = 'none';
         }
     </script>
 </body>
