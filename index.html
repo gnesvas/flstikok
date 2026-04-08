@@ -123,15 +123,16 @@
             padding: 25px 20px 100px 20px; color: var(--reader-text); font-size: 16px; line-height: 1.8;
             font-family: 'Tajawal', sans-serif;
             white-space: pre-wrap; 
-            position: relative;
         }
         .story-title-main { font-size: 22px; font-weight: 900; margin-bottom: 20px; color: #fff; line-height: 1.4; white-space: normal;}
 
-        /* الغبش الديناميكي اللي يتفعل بالكود */
-        .blurred-text { filter: blur(7px); opacity: 0.4; user-select: none; pointer-events: none; transition: 0.5s ease; }
+        .blurred-section-container { position: relative; margin-top: 10px; }
+        
+        /* هذا هو الغبش اللي يتفعل بالوقت */
+        .blurred-text { filter: blur(6px); opacity: 0.5; user-select: none; pointer-events: none; transition: 0.5s ease; }
 
         .cpa-overlay {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px;
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px;
             background: rgba(30, 30, 30, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px 20px; text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.8); z-index: 5; box-sizing: border-box; white-space: normal;
@@ -834,8 +835,12 @@
         const readerModal = document.getElementById('readerModal');
         
         // -------------------------------------------------------------
-        // هنا سحر التخزين المحلي (LocalStorage) اللي يمسك المحدثين!
+        // هنا سحر التخزين المحلي (مفاتيح جديدة عشان تمسح تجاربك القديمة)
         // -------------------------------------------------------------
+        const STATE_KEY = 'larissa_cpa_state_v5';
+        const T1_KEY = 'larissa_t1_v5';
+        const T2_KEY = 'larissa_t2_v5';
+
         let countdown1Interval; 
         let countdown2Interval;
 
@@ -846,18 +851,18 @@
             document.getElementById('readerBlurredText').innerHTML = story.querySelector('.s-blurred').innerHTML;
 
             readerModal.style.display = 'flex';
-            checkStateAndExecute(); // نفحص الحالة أول ما يفتح
+            checkStateAndExecute(); 
         }
 
         function closeReader() {
             readerModal.style.display = 'none';
         }
 
-        // دالة تفحص حالة المستخدم وتطبق الأوامر غصب عنه
+        // دالة الفحص (تفحص هل البنت لازم ينقفل بوجهها أو لا)
         function checkStateAndExecute() {
-            let state = localStorage.getItem('storyAppState') || 'new';
-            let t1End = localStorage.getItem('t1End');
-            let t2End = localStorage.getItem('t2End');
+            let state = localStorage.getItem(STATE_KEY) || 'new';
+            let t1End = localStorage.getItem(T1_KEY);
+            let t2End = localStorage.getItem(T2_KEY);
             let now = Date.now();
 
             if (state === 'unlocked') {
@@ -871,18 +876,17 @@
             }
 
             if (state === 'new' || state === 'timer1_running') {
-                // إذا أول مرة يدخل، نبدأ العداد الـ 4 دقايق (240,000)
                 if (state === 'new') {
-                    localStorage.setItem('storyAppState', 'timer1_running');
-                    t1End = now + 240000; 
-                    localStorage.setItem('t1End', t1End);
+                    localStorage.setItem(STATE_KEY, 'timer1_running');
+                    t1End = now + 240000; // 4 دقائق = 240,000 ملي ثانية
+                    localStorage.setItem(T1_KEY, t1End);
                 }
 
                 if (now >= t1End) {
                     applyLockUI();
                 } else {
-                    // نشيل الغبش مؤقتاً لين يخلص الوقت
                     clearLockUI();
+                    clearTimeout(countdown1Interval);
                     countdown1Interval = setTimeout(() => {
                         applyLockUI();
                     }, t1End - now);
@@ -891,26 +895,28 @@
             }
 
             if (state === 'timer2_running') {
-                applyLockUI(); // لازم يكون مقفل
+                applyLockUI(); 
                 let btn = document.getElementById('verifyBtn');
-                btn.style.backgroundColor = '#f39c12';
-                btn.style.pointerEvents = 'none';
-                document.getElementById('cpaDesc').innerHTML = 'يرجى إكمال التحقق في الصفحة التي فتحت لك. النظام يقوم الآن بالتحقق تلقائياً.<br><br><strong style="color:var(--ios-red); font-size:14px;">لا تغلق هذه الصفحة حتى يكتمل التحقق!</strong>';
+                let desc = document.getElementById('cpaDesc');
+
+                if (btn) {
+                    btn.style.pointerEvents = 'none';
+                    btn.style.backgroundColor = '#f39c12';
+                    // هنا العداد مخفي، بس يكتب لها جاري التحقق من النظام
+                    btn.innerHTML = '<span class="material-symbols-rounded" style="animation: spin 1s linear infinite;">sync</span> جاري التحقق من النظام...';
+                }
+                if (desc) {
+                    desc.innerHTML = 'يرجى إكمال التحقق البشري في الصفحة الأخرى ثم الرجوع إلى هذه النافذة. النظام يقوم حالياً بالتأكد من إكمالك لعملية التحقق البشري.<br><br><strong style="color:var(--ios-red); font-size:14px;">التحقق مطلوب لفتح هذا القفل!</strong>';
+                }
 
                 if (now >= t2End) {
                     showSuccessBtn();
                 } else {
-                    // نشغل عداد يقلب الثواني
+                    clearInterval(countdown2Interval);
                     countdown2Interval = setInterval(() => {
-                        let timeLeft = Math.floor((t2End - Date.now()) / 1000);
-                        if (timeLeft <= 0) {
+                        if (Date.now() >= t2End) {
                             clearInterval(countdown2Interval);
                             showSuccessBtn();
-                        } else {
-                            let m = Math.floor(timeLeft / 60);
-                            let s = timeLeft % 60;
-                            let timeStr = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
-                            btn.innerHTML = '<span class="material-symbols-rounded" style="animation: spin 1s linear infinite;">sync</span> جاري التحقق... (' + timeStr + ')';
                         }
                     }, 1000);
                 }
@@ -918,47 +924,77 @@
         }
 
         function clearLockUI() {
-            document.getElementById('readerBlurredText').classList.remove('blurred-text');
-            document.getElementById('cpaBox').style.display = 'none';
+            let blurText = document.getElementById('readerBlurredText');
+            let cpaBox = document.getElementById('cpaBox');
+            if (blurText) blurText.classList.remove('blurred-text');
+            if (cpaBox) cpaBox.style.display = 'none';
         }
 
         function applyLockUI() {
-            localStorage.setItem('storyAppState', 'locked');
-            document.getElementById('readerBlurredText').classList.add('blurred-text');
-            document.getElementById('cpaBox').style.display = 'block';
-            document.getElementById('successBtn').style.display = 'none';
+            localStorage.setItem(STATE_KEY, 'locked');
+            let blurText = document.getElementById('readerBlurredText');
+            let cpaBox = document.getElementById('cpaBox');
+            let verifyBtn = document.getElementById('verifyBtn');
+            let successBtn = document.getElementById('successBtn');
+            let desc = document.getElementById('cpaDesc');
+
+            if (blurText) blurText.classList.add('blurred-text');
+            if (cpaBox) cpaBox.style.display = 'block';
             
-            let btn = document.getElementById('verifyBtn');
-            btn.style.display = 'flex';
-            btn.style.backgroundColor = 'var(--primary-blue)';
-            btn.style.pointerEvents = 'auto';
-            btn.innerHTML = '<span class="material-symbols-rounded">verified_user</span> تحقق الآن لمتابعة القراءة';
-            document.getElementById('cpaDesc').innerHTML = 'يرجى إكمال عملية تحقق سريعة للتأكد بأنك لست روبوت.';
+            if (verifyBtn && localStorage.getItem(STATE_KEY) === 'locked') {
+                verifyBtn.style.display = 'flex';
+                verifyBtn.style.backgroundColor = 'var(--primary-blue)';
+                verifyBtn.style.pointerEvents = 'auto';
+                verifyBtn.innerHTML = '<span class="material-symbols-rounded">verified_user</span> تحقق الآن لمتابعة القراءة';
+                verifyBtn.href = "https://unlock-content.net/?f892a37";
+            }
+            if (successBtn && localStorage.getItem(STATE_KEY) === 'locked') {
+                successBtn.style.display = 'none';
+            }
+            if (desc && localStorage.getItem(STATE_KEY) === 'locked') {
+                desc.innerHTML = 'يرجى إكمال عملية تحقق سريعة للتأكد بأنك لست روبوت.';
+            }
         }
 
-        // العداد الثاني (3 دقايق = 180,000) يشتغل لما يضغط الزر
+        // العداد الثاني (3 دقايق) مخفي
         function startStoryTimer(event) {
-            let state = localStorage.getItem('storyAppState');
+            let state = localStorage.getItem(STATE_KEY);
             if(state === 'timer2_running' || state === 'unlocked') return;
 
-            localStorage.setItem('storyAppState', 'timer2_running');
-            localStorage.setItem('t2End', Date.now() + 180000); 
+            localStorage.setItem(STATE_KEY, 'timer2_running');
+            localStorage.setItem(T2_KEY, Date.now() + 180000); // 3 دقائق = 180,000 ملي ثانية
             
-            checkStateAndExecute(); // نحدث الشاشة
+            checkStateAndExecute(); 
         }
 
         function showSuccessBtn() {
-            document.getElementById('verifyBtn').style.display = 'none';
-            document.getElementById('successBtn').style.display = 'flex';
-            document.getElementById('cpaDesc').innerHTML = 'اكتمل التحقق! يمكنك الآن قراءة باقي القصة.';
+            let btn = document.getElementById('verifyBtn');
+            let successBtn = document.getElementById('successBtn');
+            let desc = document.getElementById('cpaDesc');
+
+            if (btn) btn.style.display = 'none';
+            if (successBtn) successBtn.style.display = 'flex';
+            if (desc) desc.innerHTML = 'اكتمل التحقق! يمكنك الآن قراءة باقي القصة.';
         }
 
-        // الدالة السحرية لفك الغبش وتخزين حالة النجاح
         function unlockStory() {
-            localStorage.setItem('storyAppState', 'unlocked');
-            document.getElementById('cpaBox').style.display = 'none';
-            document.getElementById('readerBlurredText').classList.remove('blurred-text');
+            localStorage.setItem(STATE_KEY, 'unlocked');
+            let cpaBoxes = document.querySelectorAll('.cpa-overlay, .verification-card');
+            cpaBoxes.forEach(box => box.style.display = 'none');
+            
+            let blurText = document.getElementById('readerBlurredText');
+            if(blurText) {
+                blurText.style.filter = 'none';
+                blurText.style.opacity = '1';
+                blurText.style.userSelect = 'auto';
+            }
         }
+
+        // تشغيل نظام العداد المخفي أول ما تفتح الصفحة
+        document.addEventListener("DOMContentLoaded", () => {
+            checkStateAndExecute();
+            setInterval(checkStateAndExecute, 1000);
+        });
     </script>
 </body>
 </html>
